@@ -1,4 +1,4 @@
-# PDT-TelemetryExplorer
+# Project Desert Tortoise - TelemetryExplorer
 Explore the telemetry gathered from the NOAA spacecraft! 
 
 TODO:
