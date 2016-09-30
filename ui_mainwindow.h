@@ -26,8 +26,6 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
-#include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
@@ -52,8 +50,7 @@ public:
     QLabel *label;
     QSpacerItem *verticalSpacer;
     QWidget *Summary;
-    QTableWidget *tableWidget;
-    QLabel *label_2;
+    QTableWidget *summaryTable;
     QWidget *RawHex;
     QGridLayout *gridLayout_5;
     QLabel *label_3;
@@ -61,22 +58,32 @@ public:
     QWidget *Parity;
     QLabel *label_4;
     QWidget *SpaceCrft;
+    QGridLayout *gridLayout_10;
     QLabel *label_5;
     QWidget *SPC_ID;
     QGridLayout *gridLayout_4;
     QLabel *label_6;
     QwtPlot *SPIDPlot;
+    QPlainTextEdit *SPIDList;
+    QWidget *MinorFrameIDs;
+    QGridLayout *gridLayout_6;
+    QwtPlot *minorFrameIDPlot;
+    QPlainTextEdit *MinorFrameIDList;
     QWidget *TStamp;
     QWidget *HIRS;
+    QGridLayout *gridLayout_8;
+    QLabel *label_8;
     QWidget *HChans;
     QWidget *HChanAll;
     QWidget *HTlm;
     QWidget *DCS;
-    QTextEdit *textEdit;
+    QGridLayout *gridLayout_7;
+    QLabel *label_7;
     QWidget *DSum;
-    QTextBrowser *textBrowser;
+    QPlainTextEdit *DCSSumTextBrowser;
     QWidget *CPU;
-    QTextBrowser *textBrowser_2;
+    QGridLayout *gridLayout_9;
+    QLabel *label_9;
     QWidget *CPUA;
     QWidget *CPUB;
     QWidget *SEM;
@@ -92,7 +99,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1055, 687);
+        MainWindow->resize(1055, 699);
         actionLoad = new QAction(MainWindow);
         actionLoad->setObjectName(QStringLiteral("actionLoad"));
         centralWidget = new QWidget(MainWindow);
@@ -123,6 +130,7 @@ public:
         QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem(treeWidget);
         new QTreeWidgetItem(__qtreewidgetitem1);
         new QTreeWidgetItem(__qtreewidgetitem1);
+        new QTreeWidgetItem(__qtreewidgetitem1);
         QTreeWidgetItem *__qtreewidgetitem2 = new QTreeWidgetItem(treeWidget);
         QTreeWidgetItem *__qtreewidgetitem3 = new QTreeWidgetItem(__qtreewidgetitem2);
         new QTreeWidgetItem(__qtreewidgetitem3);
@@ -138,6 +146,7 @@ public:
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
         treeWidget->setGeometry(QRect(10, 20, 231, 571));
         treeWidget->setWordWrap(true);
+        treeWidget->setExpandsOnDoubleClick(false);
         treeWidget->header()->setCascadingSectionResizes(true);
         treeWidget->header()->setProperty("showSortIndicator", QVariant(false));
         treeWidget->header()->setStretchLastSection(true);
@@ -177,12 +186,25 @@ public:
         stackedWidget->addWidget(Demod);
         Summary = new QWidget();
         Summary->setObjectName(QStringLiteral("Summary"));
-        tableWidget = new QTableWidget(Summary);
-        tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(0, 0, 741, 561));
-        label_2 = new QLabel(Summary);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(20, 10, 71, 16));
+        summaryTable = new QTableWidget(Summary);
+        if (summaryTable->columnCount() < 2)
+            summaryTable->setColumnCount(2);
+        if (summaryTable->rowCount() < 3)
+            summaryTable->setRowCount(3);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        summaryTable->setItem(0, 0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        summaryTable->setItem(1, 0, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        summaryTable->setItem(2, 0, __qtablewidgetitem2);
+        summaryTable->setObjectName(QStringLiteral("summaryTable"));
+        summaryTable->setGeometry(QRect(0, 0, 741, 561));
+        summaryTable->setCornerButtonEnabled(false);
+        summaryTable->setRowCount(3);
+        summaryTable->setColumnCount(2);
+        summaryTable->horizontalHeader()->setVisible(false);
+        summaryTable->horizontalHeader()->setMinimumSectionSize(75);
+        summaryTable->verticalHeader()->setVisible(false);
         stackedWidget->addWidget(Summary);
         RawHex = new QWidget();
         RawHex->setObjectName(QStringLiteral("RawHex"));
@@ -211,9 +233,17 @@ public:
         stackedWidget->addWidget(Parity);
         SpaceCrft = new QWidget();
         SpaceCrft->setObjectName(QStringLiteral("SpaceCrft"));
+        gridLayout_10 = new QGridLayout(SpaceCrft);
+        gridLayout_10->setSpacing(6);
+        gridLayout_10->setContentsMargins(11, 11, 11, 11);
+        gridLayout_10->setObjectName(QStringLiteral("gridLayout_10"));
         label_5 = new QLabel(SpaceCrft);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(20, 10, 71, 16));
+        label_5->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        label_5->setWordWrap(true);
+
+        gridLayout_10->addWidget(label_5, 0, 0, 1, 1);
+
         stackedWidget->addWidget(SpaceCrft);
         SPC_ID = new QWidget();
         SPC_ID->setObjectName(QStringLiteral("SPC_ID"));
@@ -228,15 +258,69 @@ public:
 
         SPIDPlot = new QwtPlot(SPC_ID);
         SPIDPlot->setObjectName(QStringLiteral("SPIDPlot"));
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(7);
+        sizePolicy2.setHeightForWidth(SPIDPlot->sizePolicy().hasHeightForWidth());
+        SPIDPlot->setSizePolicy(sizePolicy2);
 
         gridLayout_4->addWidget(SPIDPlot, 1, 0, 1, 1);
 
+        SPIDList = new QPlainTextEdit(SPC_ID);
+        SPIDList->setObjectName(QStringLiteral("SPIDList"));
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Maximum);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(1);
+        sizePolicy3.setHeightForWidth(SPIDList->sizePolicy().hasHeightForWidth());
+        SPIDList->setSizePolicy(sizePolicy3);
+        SPIDList->setMaximumSize(QSize(16777215, 87));
+
+        gridLayout_4->addWidget(SPIDList, 2, 0, 1, 1);
+
         stackedWidget->addWidget(SPC_ID);
+        MinorFrameIDs = new QWidget();
+        MinorFrameIDs->setObjectName(QStringLiteral("MinorFrameIDs"));
+        gridLayout_6 = new QGridLayout(MinorFrameIDs);
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setContentsMargins(11, 11, 11, 11);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        minorFrameIDPlot = new QwtPlot(MinorFrameIDs);
+        minorFrameIDPlot->setObjectName(QStringLiteral("minorFrameIDPlot"));
+        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(10);
+        sizePolicy4.setHeightForWidth(minorFrameIDPlot->sizePolicy().hasHeightForWidth());
+        minorFrameIDPlot->setSizePolicy(sizePolicy4);
+
+        gridLayout_6->addWidget(minorFrameIDPlot, 0, 0, 1, 1);
+
+        MinorFrameIDList = new QPlainTextEdit(MinorFrameIDs);
+        MinorFrameIDList->setObjectName(QStringLiteral("MinorFrameIDList"));
+        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(1);
+        sizePolicy5.setHeightForWidth(MinorFrameIDList->sizePolicy().hasHeightForWidth());
+        MinorFrameIDList->setSizePolicy(sizePolicy5);
+
+        gridLayout_6->addWidget(MinorFrameIDList, 1, 0, 1, 1);
+
+        stackedWidget->addWidget(MinorFrameIDs);
         TStamp = new QWidget();
         TStamp->setObjectName(QStringLiteral("TStamp"));
         stackedWidget->addWidget(TStamp);
         HIRS = new QWidget();
         HIRS->setObjectName(QStringLiteral("HIRS"));
+        gridLayout_8 = new QGridLayout(HIRS);
+        gridLayout_8->setSpacing(6);
+        gridLayout_8->setContentsMargins(11, 11, 11, 11);
+        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        label_8 = new QLabel(HIRS);
+        label_8->setObjectName(QStringLiteral("label_8"));
+        label_8->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        label_8->setWordWrap(true);
+
+        gridLayout_8->addWidget(label_8, 0, 0, 1, 1);
+
         stackedWidget->addWidget(HIRS);
         HChans = new QWidget();
         HChans->setObjectName(QStringLiteral("HChans"));
@@ -249,21 +333,40 @@ public:
         stackedWidget->addWidget(HTlm);
         DCS = new QWidget();
         DCS->setObjectName(QStringLiteral("DCS"));
-        textEdit = new QTextEdit(DCS);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
-        textEdit->setGeometry(QRect(0, 0, 751, 561));
+        gridLayout_7 = new QGridLayout(DCS);
+        gridLayout_7->setSpacing(6);
+        gridLayout_7->setContentsMargins(11, 11, 11, 11);
+        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
+        label_7 = new QLabel(DCS);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setTextFormat(Qt::RichText);
+        label_7->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        label_7->setWordWrap(true);
+
+        gridLayout_7->addWidget(label_7, 0, 0, 1, 1);
+
         stackedWidget->addWidget(DCS);
         DSum = new QWidget();
         DSum->setObjectName(QStringLiteral("DSum"));
-        textBrowser = new QTextBrowser(DSum);
-        textBrowser->setObjectName(QStringLiteral("textBrowser"));
-        textBrowser->setGeometry(QRect(0, 0, 751, 561));
+        DCSSumTextBrowser = new QPlainTextEdit(DSum);
+        DCSSumTextBrowser->setObjectName(QStringLiteral("DCSSumTextBrowser"));
+        DCSSumTextBrowser->setGeometry(QRect(0, 0, 751, 561));
+        DCSSumTextBrowser->setLineWrapMode(QPlainTextEdit::NoWrap);
+        DCSSumTextBrowser->setReadOnly(true);
         stackedWidget->addWidget(DSum);
         CPU = new QWidget();
         CPU->setObjectName(QStringLiteral("CPU"));
-        textBrowser_2 = new QTextBrowser(CPU);
-        textBrowser_2->setObjectName(QStringLiteral("textBrowser_2"));
-        textBrowser_2->setGeometry(QRect(0, 0, 751, 561));
+        gridLayout_9 = new QGridLayout(CPU);
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setContentsMargins(11, 11, 11, 11);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        label_9 = new QLabel(CPU);
+        label_9->setObjectName(QStringLiteral("label_9"));
+        label_9->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        label_9->setWordWrap(true);
+
+        gridLayout_9->addWidget(label_9, 0, 0, 1, 1);
+
         stackedWidget->addWidget(CPU);
         CPUA = new QWidget();
         CPUA->setObjectName(QStringLiteral("CPUA"));
@@ -311,7 +414,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(2);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -340,56 +443,56 @@ public:
         QTreeWidgetItem *___qtreewidgetitem6 = ___qtreewidgetitem5->child(0);
         ___qtreewidgetitem6->setText(0, QApplication::translate("MainWindow", "Spacecraft ID", 0));
         QTreeWidgetItem *___qtreewidgetitem7 = ___qtreewidgetitem5->child(1);
-        ___qtreewidgetitem7->setText(0, QApplication::translate("MainWindow", "Timestamps", 0));
-        QTreeWidgetItem *___qtreewidgetitem8 = treeWidget->topLevelItem(2);
-        ___qtreewidgetitem8->setText(0, QApplication::translate("MainWindow", "HIRS", 0));
-        QTreeWidgetItem *___qtreewidgetitem9 = ___qtreewidgetitem8->child(0);
-        ___qtreewidgetitem9->setText(0, QApplication::translate("MainWindow", "Channels", 0));
+        ___qtreewidgetitem7->setText(0, QApplication::translate("MainWindow", "Minor Frame IDs", 0));
+        QTreeWidgetItem *___qtreewidgetitem8 = ___qtreewidgetitem5->child(2);
+        ___qtreewidgetitem8->setText(0, QApplication::translate("MainWindow", "Timestamps", 0));
+        QTreeWidgetItem *___qtreewidgetitem9 = treeWidget->topLevelItem(2);
+        ___qtreewidgetitem9->setText(0, QApplication::translate("MainWindow", "HIRS", 0));
         QTreeWidgetItem *___qtreewidgetitem10 = ___qtreewidgetitem9->child(0);
-        ___qtreewidgetitem10->setText(0, QApplication::translate("MainWindow", "All", 0));
-        QTreeWidgetItem *___qtreewidgetitem11 = ___qtreewidgetitem8->child(1);
-        ___qtreewidgetitem11->setText(0, QApplication::translate("MainWindow", "Telemetry", 0));
-        QTreeWidgetItem *___qtreewidgetitem12 = treeWidget->topLevelItem(3);
-        ___qtreewidgetitem12->setText(0, QApplication::translate("MainWindow", "DCS", 0));
-        QTreeWidgetItem *___qtreewidgetitem13 = ___qtreewidgetitem12->child(0);
-        ___qtreewidgetitem13->setText(0, QApplication::translate("MainWindow", "DCS Summary", 0));
-        QTreeWidgetItem *___qtreewidgetitem14 = treeWidget->topLevelItem(4);
-        ___qtreewidgetitem14->setText(0, QApplication::translate("MainWindow", "CPU", 0));
-        QTreeWidgetItem *___qtreewidgetitem15 = ___qtreewidgetitem14->child(0);
-        ___qtreewidgetitem15->setText(0, QApplication::translate("MainWindow", "CPU A", 0));
-        QTreeWidgetItem *___qtreewidgetitem16 = ___qtreewidgetitem14->child(1);
-        ___qtreewidgetitem16->setText(0, QApplication::translate("MainWindow", "CPU B", 0));
-        QTreeWidgetItem *___qtreewidgetitem17 = treeWidget->topLevelItem(5);
-        ___qtreewidgetitem17->setText(0, QApplication::translate("MainWindow", "SEM", 0));
-        QTreeWidgetItem *___qtreewidgetitem18 = ___qtreewidgetitem17->child(0);
-        ___qtreewidgetitem18->setText(0, QApplication::translate("MainWindow", "MEPED", 0));
-        QTreeWidgetItem *___qtreewidgetitem19 = ___qtreewidgetitem17->child(1);
-        ___qtreewidgetitem19->setText(0, QApplication::translate("MainWindow", "TED", 0));
+        ___qtreewidgetitem10->setText(0, QApplication::translate("MainWindow", "Channels", 0));
+        QTreeWidgetItem *___qtreewidgetitem11 = ___qtreewidgetitem10->child(0);
+        ___qtreewidgetitem11->setText(0, QApplication::translate("MainWindow", "All", 0));
+        QTreeWidgetItem *___qtreewidgetitem12 = ___qtreewidgetitem9->child(1);
+        ___qtreewidgetitem12->setText(0, QApplication::translate("MainWindow", "Telemetry", 0));
+        QTreeWidgetItem *___qtreewidgetitem13 = treeWidget->topLevelItem(3);
+        ___qtreewidgetitem13->setText(0, QApplication::translate("MainWindow", "DCS", 0));
+        QTreeWidgetItem *___qtreewidgetitem14 = ___qtreewidgetitem13->child(0);
+        ___qtreewidgetitem14->setText(0, QApplication::translate("MainWindow", "DCS Summary", 0));
+        QTreeWidgetItem *___qtreewidgetitem15 = treeWidget->topLevelItem(4);
+        ___qtreewidgetitem15->setText(0, QApplication::translate("MainWindow", "CPU", 0));
+        QTreeWidgetItem *___qtreewidgetitem16 = ___qtreewidgetitem15->child(0);
+        ___qtreewidgetitem16->setText(0, QApplication::translate("MainWindow", "CPU A", 0));
+        QTreeWidgetItem *___qtreewidgetitem17 = ___qtreewidgetitem15->child(1);
+        ___qtreewidgetitem17->setText(0, QApplication::translate("MainWindow", "CPU B", 0));
+        QTreeWidgetItem *___qtreewidgetitem18 = treeWidget->topLevelItem(5);
+        ___qtreewidgetitem18->setText(0, QApplication::translate("MainWindow", "SEM", 0));
+        QTreeWidgetItem *___qtreewidgetitem19 = ___qtreewidgetitem18->child(0);
+        ___qtreewidgetitem19->setText(0, QApplication::translate("MainWindow", "MEPED", 0));
+        QTreeWidgetItem *___qtreewidgetitem20 = ___qtreewidgetitem18->child(1);
+        ___qtreewidgetitem20->setText(0, QApplication::translate("MainWindow", "TED", 0));
         treeWidget->setSortingEnabled(__sortingEnabled);
 
         groupBox->setTitle(QApplication::translate("MainWindow", "The Good Stuff", 0));
         label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Demodulation Details</span></p><p><span style=\" font-size:10pt;\">The modulation scheme is a non orthagonal BPSK, also known as a preserved carrier PSK.</span></p><p><span style=\" font-size:10pt;\">The phase shift is between -67 and +67 degrees, which allows the carrier frequency to be preserved and tracked using a simple PLL. </span></p><p><span style=\" font-size:10pt;\">The bits are manchester coded for ease of clock recovery, which means there are two symbols per bit. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Summary: </span><span style=\" font-size:10pt;\">Dsplays the results of the demodulation</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Raw Hex: </span><span style=\" font-size:10pt;\">Displays the raw minor frames in hex format for visualization or copy/paste into another application</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Parity: </span><span style=\" font-size:10pt;"
                         "\">Calculates the errors in the bitstream in 5 chunks and verifies that there are at least an even or odd number of errors in each chunk.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Summary", 0));
+
+        const bool __sortingEnabled1 = summaryTable->isSortingEnabled();
+        summaryTable->setSortingEnabled(false);
+        QTableWidgetItem *___qtablewidgetitem = summaryTable->item(0, 0);
+        ___qtablewidgetitem->setText(QApplication::translate("MainWindow", "Minor Frames", 0));
+        QTableWidgetItem *___qtablewidgetitem1 = summaryTable->item(1, 0);
+        ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Recording Length", 0));
+        QTableWidgetItem *___qtablewidgetitem2 = summaryTable->item(2, 0);
+        ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Spacecraft ID", 0));
+        summaryTable->setSortingEnabled(__sortingEnabled1);
+
         label_3->setText(QApplication::translate("MainWindow", "RawHex", 0));
         label_4->setText(QApplication::translate("MainWindow", "Parity", 0));
-        label_5->setText(QApplication::translate("MainWindow", "Spacecraft", 0));
+        label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p></body></html>", 0));
         label_6->setText(QApplication::translate("MainWindow", "SPC_ID", 0));
-        textEdit->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">DCS transmitters are ground based transmitters that contain a short payload and geolocation information</p></body></html>", 0));
-        textBrowser->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Transmitter Summary (lots and lots of stuff and stuff)</p></body></html>", 0));
-        textBrowser_2->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">CPU Telemetry is still being reverse engineered and is probably impossible to completely understand given the amount of possible magic data</p></body></html>", 0));
+        label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">HIRS</span><span style=\" font-size:10pt; font-weight:600;\"> - High Resolution Infrared Sounder</span></p><p><span style=\" font-size:10pt;\">The High Resolution Infrared Sounder subsystem scans the earth view with a constant velocity scanning mirror which directs the view orthagonal to the path of travel of the spacecraft.</span></p><p><span style=\" font-size:10pt;\">The HIRS instrument measures spectral intensity over 20 different wavelengths. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Channels: </span><span style=\" font-size:10pt;\">Displays the per-channel data.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
+        label_7->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">DCS - Data Collection System</span></p><p><span style=\" font-size:10pt;\">The DCS subsystem captures packets from ground based transmitters deployed on a variety of environmental monitoring stations.</span></p><p><span style=\" font-size:10pt;\">Such stations include earth reference stations, wildlife tracking collars, fishing vessel trreaty enforcement transmitters, among (many) others. </span></p><p><span style=\" font-size:10pt;\">NOAA-19 contains an updated subsystem referred to as ADCS (Advanced DCS) which does use a slightly different packet format.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Summary: </span><span style=\" font-size:10pt;\">Dsplays a list of all heard stations and their payloads, sorted by number of recieved packets.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
+        label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">CPU Telemetry</span></p><p><br/></p><p><span style=\" font-size:10pt;\">CPU Telemetry is still being reverse engineered and is probably impossible to completely understand given the amount of possible magic data</span></p></body></html>", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuExit->setTitle(QApplication::translate("MainWindow", "Exit", 0));
     } // retranslateUi

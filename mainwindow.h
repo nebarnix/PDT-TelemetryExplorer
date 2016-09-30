@@ -6,6 +6,11 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QTreeWidgetItem>
+#include <qwt_plot.h>
+#include <qwt_plot_curve.h>
+#include <qwt_symbol.h>
+#include <qwt_plot_magnifier.h>
+#include <qwt_plot_panner.h>
 
 namespace Ui {
 class MainWindow;
@@ -27,10 +32,16 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QStringList minorFramesHex;
-    //QByteArray minorFrame[103];
+    QByteArrayList minorFramesDec;
     QList <float> minorFrameTimes;
     void displayMinorFramesHex();
+    void displayMinorFramesDec();
+    void convertMinorFramesHex2Dec();
     void displaySpaceCraftID();
+    void plotMinorFrameID();
+    void populateSummaryTable();
+    unsigned int numFrames;
+    unsigned char SFID;
 };
 
 #endif // MAINWINDOW_H

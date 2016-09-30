@@ -17,8 +17,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->minorFrameBrowser->setUndoRedoEnabled(false);
     ui->minorFrameBrowser->setContextMenuPolicy(Qt::NoContextMenu);
 
+    ui->SPIDPlot->canvas()->setStyleSheet(
+               "border: 2px solid Black;"
+
+               "background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
+                   "stop: 0 DarkSlateGray  , stop: 1 black );"
+           );
+
+    ui->minorFrameIDPlot->canvas()->setStyleSheet(
+               "border: 2px solid Black;"
+
+               "background-color: qlineargradient( x1: 0, y1: 0, x2: 0, y2: 1,"
+                   "stop: 0 DarkSlateGray  , stop: 1 black );"
+           );
+
     connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(open()));
-    connect(ui->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),this,SLOT(updateViewOnTreeClick(QTreeWidgetItem*,int)));
+    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(updateViewOnTreeClick(QTreeWidgetItem*,int)));
+    ui->treeWidget->expandAll(); //Show all trees expanded at the start
 }
 
 MainWindow::~MainWindow()
@@ -47,7 +62,7 @@ if (fileName != "")
       return;
       }
    QTextStream in(&file);
-   //QTextStream textStream(&textFile);
+
    while (true)
       {
       QString line = in.readLine();
@@ -62,15 +77,57 @@ if (fileName != "")
          }
       }
    file.close();
+   numFrames = minorFramesHex.length();
+
    displayMinorFramesHex();
+   convertMinorFramesHex2Dec();
+   //displayMinorFramesDec(); //no need to spit these out to the DCS box. Its not your box anyway!
+   displaySpaceCraftID();
+   plotMinorFrameID();
+   populateSummaryTable();
+
+   //Ok, we're done, go to Summary now
+   ui->stackedWidget->setCurrentIndex(1);
    }
+}
+
+void MainWindow::populateSummaryTable()
+{
+
+    int i=0;
+    ui->summaryTable->setRowCount(3);
+    ui->summaryTable->setColumnCount(2);
+
+    //Minor Frame Count
+    ui->summaryTable->setItem(i, 0, new QTableWidgetItem("Minor Frames"));
+    ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(numFrames)));
+    i++;
+
+    //Time Length Frame Count
+    ui->summaryTable->setItem(i, 0, new QTableWidgetItem("Recording Length"));
+    ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(minorFrameTimes[numFrames-1],'f',3)));
+    i++;
+
+    //Spacecraft ID
+    ui->summaryTable->setItem(i, 0, new QTableWidgetItem("Spacecraft ID"));
+    if (SFID == 8)
+       ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(SFID)+"=>NOAA-15"));
+    else if (SFID == 13)
+        ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(SFID)+"=>NOAA-18"));
+    else if (SFID == 15)
+        ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(SFID)+"=>NOAA-19"));
+    else
+        ui->summaryTable->setItem(i, 1, new QTableWidgetItem(QString::number(SFID)+"=>A UFO!"));
+
+    i++;
+
 }
 
 void MainWindow::updateViewOnTreeClick(QTreeWidgetItem *item, int column)
 {
     QStringList myOptions;
     myOptions << "Demodulation" << "Summary" << "Raw Hex Frames" <<\
-                 "Parity Check" << "Spacecraft" << "Spacecraft ID" << "Timestamps" <<\
+                 "Parity Check" << "Spacecraft" << "Spacecraft ID" << "Minor Frame IDs" << "Timestamps" <<\
                  "HIRS" << "Channels" << "All" << "Telemetry" <<\
                  "DCS" << "DCS Summary" << "CPU" << "CPU A" << "CPU B" <<\
                  "SEM" << "MEPED" << "TED";
@@ -104,61 +161,64 @@ void MainWindow::updateViewOnTreeClick(QTreeWidgetItem *item, int column)
         ui->stackedWidget->setCurrentIndex(5);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 6://Timestamps
+    case 6://Minorframe IDs
         ui->stackedWidget->setCurrentIndex(6);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 7://HIRS
+    case 7://Timestamps
         ui->stackedWidget->setCurrentIndex(7);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 8://Channels
+    case 8://HIRS
         ui->stackedWidget->setCurrentIndex(8);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 9://All
+    case 9://Channels
         ui->stackedWidget->setCurrentIndex(9);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 10://Telemetry
+    case 10://All
         ui->stackedWidget->setCurrentIndex(10);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 11://DCS
+    case 11://Telemetry
         ui->stackedWidget->setCurrentIndex(11);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 12://DCS Summary
+    case 12://DCS
         ui->stackedWidget->setCurrentIndex(12);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 13://CPU
+    case 13://DCS Summary
         ui->stackedWidget->setCurrentIndex(13);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 14://CPU A
+    case 14://CPU
         ui->stackedWidget->setCurrentIndex(14);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 15://CPU B
+    case 15://CPU A
         ui->stackedWidget->setCurrentIndex(15);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 16://SEM
+    case 16://CPU B
         ui->stackedWidget->setCurrentIndex(16);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 17://MEPED
+    case 17://SEM
         ui->stackedWidget->setCurrentIndex(17);
         ui->groupBox->setTitle(item->text(0));
         break;
-    case 18://TED
-        ui->stackedWidget->setCurrentIndex(17);
+    case 18://MEPED
+        ui->stackedWidget->setCurrentIndex(18);
+        ui->groupBox->setTitle(item->text(0));
+        break;
+    case 19://TED
+        ui->stackedWidget->setCurrentIndex(19);
         ui->groupBox->setTitle(item->text(0));
         break;
 
-    }
-    //ui->textBrowser->setText(item->text(0));
+    }    
 }
 
 void MainWindow::displayMinorFramesHex()
@@ -169,7 +229,7 @@ QString windowContents;
 //0	1	2	3       4	5       6	7	8	9	10	11	12      13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35	36	37	38	39	40	41	42	43	44	45	46	47	48	49	50	51	52	53	54	55	56	57	58	59	60	61	62	63	64	65	66	67	68	69	70	71	72	73	74	75	76	77	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99	100	101	102	103
 //Sync+ID	Stat	FrmCnt		CMD		TimeDay (frm 0)			A2	DAU		HIRS		DCS		SEM		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		SBUV		HIRS		DCS		HIRS		DCS		CPU A TLM						DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		SBUV		HIRS		HIRS		DCS		HIRS		DCS		HIRS		DCS		CPU B TLM						MIU	Parity
 
-for(int i=0; i < minorFramesHex.length(); i++)
+for(int i=0; i < numFrames; i++)
    {
    //This is very slow
    //cursor.insertText(QString::number(minorFrameTimes[i],'f',4));
@@ -206,7 +266,201 @@ ui->minorFrameBrowser->insertPlainText(windowContents);
 //setUpdatesEnabled(true);
 }
 
-void MainWindow::displaySpaceCraftID()
+void MainWindow::displayMinorFramesDec()
 {
+
+QString windowContents;
+//format text for raw hex minor frames
+//0	1	2	3       4	5       6	7	8	9	10	11	12      13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35	36	37	38	39	40	41	42	43	44	45	46	47	48	49	50	51	52	53	54	55	56	57	58	59	60	61	62	63	64	65	66	67	68	69	70	71	72	73	74	75	76	77	78	79	80	81	82	83	84	85	86	87	88	89	90	91	92	93	94	95	96	97	98	99	100	101	102	103
+//Sync+ID	Stat	FrmCnt		CMD		TimeDay (frm 0)			A2	DAU		HIRS		DCS		SEM		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		SBUV		HIRS		DCS		HIRS		DCS		CPU A TLM						DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		DCS		HIRS		SBUV		HIRS		HIRS		DCS		HIRS		DCS		HIRS		DCS		CPU B TLM						MIU	Parity
+
+
+for(int i=0; i < numFrames; i++)
+   {
+   //this is fast
+   windowContents.append(QString::number(i));
+   windowContents.append(" ");
+   windowContents.append(QString::number(minorFrameTimes[i],'f',4));
+
+   windowContents.append('\t');
+   for(int j=0; j < minorFramesDec[i].length(); j++)
+       {
+       //const unsigned char *pdata = reinterpret_cast<const unsigned char *>(thearray.constData());
+       windowContents.append(QString::number(minorFramesDec[i][j]+128));
+       windowContents.append('\t');
+       }
+   windowContents.append('\n');
+
+   }
+
+ui->DCSSumTextBrowser->insertPlainText(windowContents);
 }
 
+void MainWindow::displaySpaceCraftID()
+{
+QList<unsigned int> SFIDSorted, SFIDRaw;
+unsigned char byte;
+
+for(int i=0; i < numFrames; i++)
+    {
+    byte = minorFramesDec[i][2];
+    SFIDSorted.append(byte);
+    SFIDRaw.append(byte);
+    }
+qSort(SFIDSorted.begin(), SFIDSorted.end());
+
+unsigned int bestValueSoFar=0, bestCountSoFar=0, instanceCounter=0, prev=0;
+for(int i=0; i < numFrames; i++)
+   {
+   if(SFIDSorted[i] == prev)
+       instanceCounter++;
+   else
+       instanceCounter=0;
+
+   if(instanceCounter > bestCountSoFar)
+       {
+       bestCountSoFar = instanceCounter;
+       bestValueSoFar = SFIDSorted[i];
+       }
+    prev = SFIDSorted[i];
+    }
+SFID = bestValueSoFar;
+
+//QList <unsigned int> minorFrameIDList;
+//QByteArray spaceCraftIDList;
+QString windowContents;
+
+for(int i=0; i < numFrames; i++)
+    {
+    windowContents.append(QString::number(SFIDRaw[i]));
+    windowContents.append('\n');
+    }
+
+ui->SPIDList->insertPlainText(windowContents);
+
+// add curves
+    QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
+    QImage* image =  new QImage("noaageneral9.jpg");
+
+    //ui->SPIDPlot->setFixedSize(image->width(),image->height());
+
+    double *xdata;
+    double *ydata;
+    xdata = new double[numFrames];
+    ydata = new double[numFrames];
+
+    for(int i=0; i < numFrames; i++)
+       xdata[i] = minorFrameTimes[i];
+
+    for(int i=0; i < numFrames; i++)
+       ydata[i] = SFIDRaw[i];
+
+    //QVarLengthArray<double, 1024> xdata; I did this in allspice
+
+    //pointer = QwtCPointerData(&xdata[0],&ydata[0], numFrames);
+    //curve1->setData(new QwtCPointerData(&xdata[0],&ydata[0],(size_t)3));
+    curve1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    curve1->setRawSamples(&xdata[0], &ydata[0], numFrames);
+    curve1->setPen( QColor( "Purple" ) );
+    //curve1->setStyle( QwtPlotCurve::Dots );
+
+    curve1->setStyle( QwtPlotCurve::NoCurve );
+
+    QwtSymbol *marker = new QwtSymbol;
+    //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
+    marker->setStyle(QwtSymbol::Ellipse);
+    marker->setSize(4);
+    marker->setColor(QColor( "Purple" ));
+    marker->setPen(QColor( "Magenta" ));
+    curve1->setSymbol(marker);
+
+    curve1->attach(ui->SPIDPlot);
+
+    (void )new QwtPlotPanner( ui->SPIDPlot->canvas() );
+    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->SPIDPlot->canvas() );
+    magnifier->setMouseButton( Qt::NoButton );
+
+    // finally, refresh the plot
+    ui->SPIDPlot->replot();
+    ui->SPIDPlot->show();
+}
+
+void MainWindow::plotMinorFrameID()
+{
+QList <unsigned int> minorFrameIDList;
+QByteArray spaceCraftIDList;
+QString windowContents;
+unsigned char byte1,byte2;
+for(int i=0; i < numFrames; i++)
+   {
+   //minorFrameID = bitor(bitshift(bitand(minorFrames(:,5),1),8),minorFrames(:,6)); %pull out minor frame counter, which is annoyingly 9 bits long
+   byte1 = minorFramesDec[i][4];
+   byte2 = minorFramesDec[i][5];
+   minorFrameIDList.append(((byte1 & 0x01)<<8) | byte2);
+   }
+
+for(int i=0; i < minorFrameIDList.length(); i++)
+    {
+    windowContents.append(QString::number(minorFrameIDList[i]));
+    windowContents.append('\n');
+    }
+
+ui->MinorFrameIDList->insertPlainText(windowContents);
+
+// add curves
+    QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
+
+    double *xdata;
+    double *ydata;
+    xdata = new double[numFrames];
+    ydata = new double[numFrames];
+
+    for(int i=0; i < numFrames; i++)
+       xdata[i] = minorFrameTimes[i];
+
+    for(int i=0; i < numFrames; i++)
+       ydata[i] = minorFrameIDList[i];
+
+    //QVarLengthArray<double, 1024> xdata; I did this in allspice
+
+    //pointer = QwtCPointerData(&xdata[0],&ydata[0], numFrames);
+    //curve1->setData(new QwtCPointerData(&xdata[0],&ydata[0],(size_t)3));
+    curve1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+    curve1->setRawSamples(&xdata[0], &ydata[0], numFrames);
+
+    curve1->setStyle( QwtPlotCurve::NoCurve );
+
+    QwtSymbol *marker = new QwtSymbol;
+    //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
+    marker->setStyle(QwtSymbol::Ellipse);
+    marker->setSize(4);
+    marker->setColor(QColor( "Purple" ));
+    marker->setPen(QColor( "Magenta" ));
+    curve1->setSymbol(marker);
+
+    curve1->attach(ui->minorFrameIDPlot);
+
+    (void )new QwtPlotPanner( ui->minorFrameIDPlot->canvas() );
+    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->minorFrameIDPlot->canvas() );
+    magnifier->setMouseButton( Qt::NoButton );
+
+    // finally, refresh the plot
+    ui->minorFrameIDPlot->replot();
+    ui->minorFrameIDPlot->show();
+}
+
+void MainWindow::convertMinorFramesHex2Dec()
+{
+QString line, hexByte;
+QStringList splitLine;
+QByteArray frame;
+for(int i=0; i < numFrames; i++)
+    {
+    line=minorFramesHex[i];
+
+    line.replace(" ","");
+    frame = QByteArray::fromHex(line.toLatin1());
+
+    minorFramesDec.append(frame);
+    }
+}
