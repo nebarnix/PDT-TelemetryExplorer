@@ -26,7 +26,6 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QWidget>
 #include "qwt_plot.h"
@@ -62,7 +61,6 @@ public:
     QLabel *label_5;
     QWidget *SPC_ID;
     QGridLayout *gridLayout_4;
-    QLabel *label_6;
     QwtPlot *SPIDPlot;
     QPlainTextEdit *SPIDList;
     QWidget *MinorFrameIDs;
@@ -70,6 +68,8 @@ public:
     QwtPlot *minorFrameIDPlot;
     QPlainTextEdit *MinorFrameIDList;
     QWidget *TStamp;
+    QGridLayout *gridLayout_11;
+    QPlainTextEdit *TimeStampTextBox;
     QWidget *HIRS;
     QGridLayout *gridLayout_8;
     QLabel *label_8;
@@ -92,14 +92,13 @@ public:
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuExit;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1055, 699);
+        MainWindow->resize(1055, 698);
         actionLoad = new QAction(MainWindow);
         actionLoad->setObjectName(QStringLiteral("actionLoad"));
         centralWidget = new QWidget(MainWindow);
@@ -144,7 +143,7 @@ public:
         new QTreeWidgetItem(__qtreewidgetitem6);
         new QTreeWidgetItem(__qtreewidgetitem6);
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
-        treeWidget->setGeometry(QRect(10, 20, 231, 571));
+        treeWidget->setGeometry(QRect(10, 20, 231, 581));
         treeWidget->setWordWrap(true);
         treeWidget->setExpandsOnDoubleClick(false);
         treeWidget->header()->setCascadingSectionResizes(true);
@@ -251,11 +250,6 @@ public:
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
-        label_6 = new QLabel(SPC_ID);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        gridLayout_4->addWidget(label_6, 0, 0, 1, 1);
-
         SPIDPlot = new QwtPlot(SPC_ID);
         SPIDPlot->setObjectName(QStringLiteral("SPIDPlot"));
         QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -264,7 +258,7 @@ public:
         sizePolicy2.setHeightForWidth(SPIDPlot->sizePolicy().hasHeightForWidth());
         SPIDPlot->setSizePolicy(sizePolicy2);
 
-        gridLayout_4->addWidget(SPIDPlot, 1, 0, 1, 1);
+        gridLayout_4->addWidget(SPIDPlot, 0, 0, 1, 1);
 
         SPIDList = new QPlainTextEdit(SPC_ID);
         SPIDList->setObjectName(QStringLiteral("SPIDList"));
@@ -275,7 +269,7 @@ public:
         SPIDList->setSizePolicy(sizePolicy3);
         SPIDList->setMaximumSize(QSize(16777215, 87));
 
-        gridLayout_4->addWidget(SPIDList, 2, 0, 1, 1);
+        gridLayout_4->addWidget(SPIDList, 1, 0, 1, 1);
 
         stackedWidget->addWidget(SPC_ID);
         MinorFrameIDs = new QWidget();
@@ -307,6 +301,15 @@ public:
         stackedWidget->addWidget(MinorFrameIDs);
         TStamp = new QWidget();
         TStamp->setObjectName(QStringLiteral("TStamp"));
+        gridLayout_11 = new QGridLayout(TStamp);
+        gridLayout_11->setSpacing(6);
+        gridLayout_11->setContentsMargins(11, 11, 11, 11);
+        gridLayout_11->setObjectName(QStringLiteral("gridLayout_11"));
+        TimeStampTextBox = new QPlainTextEdit(TStamp);
+        TimeStampTextBox->setObjectName(QStringLiteral("TimeStampTextBox"));
+
+        gridLayout_11->addWidget(TimeStampTextBox, 0, 0, 1, 1);
+
         stackedWidget->addWidget(TStamp);
         HIRS = new QWidget();
         HIRS->setObjectName(QStringLiteral("HIRS"));
@@ -401,9 +404,6 @@ public:
         menuExit = new QMenu(menuBar);
         menuExit->setObjectName(QStringLiteral("menuExit"));
         MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
@@ -414,7 +414,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -422,7 +422,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Project Desert Tortoise: NOAA Telemetry Explorer by KE7PHI", 0));
         actionLoad->setText(QApplication::translate("MainWindow", "Load...", 0));
         TreeBox->setTitle(QApplication::translate("MainWindow", "Telem-Tree", 0));
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
@@ -488,8 +488,8 @@ public:
 
         label_3->setText(QApplication::translate("MainWindow", "RawHex", 0));
         label_4->setText(QApplication::translate("MainWindow", "Parity", 0));
-        label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p></body></html>", 0));
-        label_6->setText(QApplication::translate("MainWindow", "SPC_ID", 0));
+        label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Spacecraft ID: </span><span style=\" font-size:10pt;\">Every minor frame contains a spacecraft ID, which is needed to properly decode the fr"
+                        "ames as NOAA-15/18 is slightly different than NOAA-19 </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Minor Frame ID: </span><span style=\" font-size:10pt;\">Every minor frame contains an ID which counts between 0 and 319 and is required to properly decommutate the subcommutated instrument data. It is also a useful plot of data quality.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Timestamps: </span><span style=\" font-size:10pt;\">Every major frame (minor frame 0/320) contains a day number and a clock in milliseconds. The data is useful for ephemris calculations, and the T(0) time is required for initializing the DCS geolocation model.</span></p></body></html>", 0));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">HIRS</span><span style=\" font-size:10pt; font-weight:600;\"> - High Resolution Infrared Sounder</span></p><p><span style=\" font-size:10pt;\">The High Resolution Infrared Sounder subsystem scans the earth view with a constant velocity scanning mirror which directs the view orthagonal to the path of travel of the spacecraft.</span></p><p><span style=\" font-size:10pt;\">The HIRS instrument measures spectral intensity over 20 different wavelengths. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Channels: </span><span style=\" font-size:10pt;\">Displays the per-channel data.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
         label_7->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">DCS - Data Collection System</span></p><p><span style=\" font-size:10pt;\">The DCS subsystem captures packets from ground based transmitters deployed on a variety of environmental monitoring stations.</span></p><p><span style=\" font-size:10pt;\">Such stations include earth reference stations, wildlife tracking collars, fishing vessel trreaty enforcement transmitters, among (many) others. </span></p><p><span style=\" font-size:10pt;\">NOAA-19 contains an updated subsystem referred to as ADCS (Advanced DCS) which does use a slightly different packet format.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Summary: </span><span style=\" font-size:10pt;\">Dsplays a list of all heard stations and their payloads, sorted by number of recieved packets.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
         label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">CPU Telemetry</span></p><p><br/></p><p><span style=\" font-size:10pt;\">CPU Telemetry is still being reverse engineered and is probably impossible to completely understand given the amount of possible magic data</span></p></body></html>", 0));

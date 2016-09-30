@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>699</height>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Project Desert Tortoise: NOAA Telemetry Explorer by KE7PHI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -55,7 +55,7 @@
            <x>10</x>
            <y>20</y>
            <width>231</width>
-           <height>571</height>
+           <height>581</height>
           </rect>
          </property>
          <property name="wordWrap">
@@ -196,7 +196,7 @@
          <item row="0" column="1">
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>1</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="Demod">
             <layout class="QGridLayout" name="gridLayout_3">
@@ -319,7 +319,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="label_5">
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Spacecraft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-15&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.350 Mhz &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-18&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.350 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-19&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.770 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Spacecraft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-15&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.350 Mhz &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-18&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.350 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;NOAA-19&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; : 137.770 Mhz&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Spacecraft ID: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Every minor frame contains a spacecraft ID, which is needed to properly decode the frames as NOAA-15/18 is slightly different than NOAA-19 &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Minor Frame ID: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Every minor frame contains an ID which counts between 0 and 319 and is required to properly decommutate the subcommutated instrument data. It is also a useful plot of data quality.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Timestamps: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Every major frame (minor frame 0/320) contains a day number and a clock in milliseconds. The data is useful for ephemris calculations, and the T(0) time is required for initializing the DCS geolocation model.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -334,13 +334,6 @@
            <widget class="QWidget" name="SPC_ID">
             <layout class="QGridLayout" name="gridLayout_4">
              <item row="0" column="0">
-              <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>SPC_ID</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
               <widget class="QwtPlot" name="SPIDPlot">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -350,7 +343,7 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
+             <item row="1" column="0">
               <widget class="QPlainTextEdit" name="SPIDList">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -392,7 +385,13 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="TStamp"/>
+           <widget class="QWidget" name="TStamp">
+            <layout class="QGridLayout" name="gridLayout_11">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="TimeStampTextBox"/>
+             </item>
+            </layout>
+           </widget>
            <widget class="QWidget" name="HIRS">
             <layout class="QGridLayout" name="gridLayout_8">
              <item row="0" column="0">
@@ -504,14 +503,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuExit"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionLoad">

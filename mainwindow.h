@@ -34,12 +34,17 @@ private:
     QStringList minorFramesHex;
     QByteArrayList minorFramesDec;
     QList <float> minorFrameTimes;
+    QList <unsigned int> minorFrameIDList;
+    QList <float> timeStampList;
+    QList <unsigned long> timeStampTimeList;
+
     void displayMinorFramesHex();
     void displayMinorFramesDec();
     void convertMinorFramesHex2Dec();
     void displaySpaceCraftID();
     void plotMinorFrameID();
     void populateSummaryTable();
+    void getTimeStamps();
     unsigned int numFrames;
     unsigned char SFID;
 };

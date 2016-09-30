@@ -70,6 +70,8 @@ if (fileName != "")
       break;
       else if(line.contains(re)) //only look at lines that start with a decimal number
          {
+         //for now, get rid of the inverted flags. Maybe we can figure this out later if there is a need
+         line.replace("i","");
          line[line.indexOf(' ')] = '\t'; //Replace the first space with a tab
          minorFrameParts = line.split('\t'); //Split on said tab
          minorFramesHex.append(minorFrameParts[1]);        //Put the hex data right into the window
@@ -84,11 +86,90 @@ if (fileName != "")
    //displayMinorFramesDec(); //no need to spit these out to the DCS box. Its not your box anyway!
    displaySpaceCraftID();
    plotMinorFrameID();
+   getTimeStamps();
    populateSummaryTable();
 
    //Ok, we're done, go to Summary now
    ui->stackedWidget->setCurrentIndex(1);
    }
+}
+
+void MainWindow::getTimeStamps()
+{
+//if((bitshift(bitand(minorFrames(frame,9+1),bin2dec('111')),24) + bitshift(minorFrames(frame,10+1),16) + bitshift(minorFrames(frame,11+1),8) + minorFrames(frame,12+1)) < 86400000)
+QString windowContents;
+unsigned char byte1, byte2, byte3, byte4;
+unsigned int dayNum;
+float timeStamp;
+float hour, minute, seconds;
+for(int i=0; i < numFrames; i++)
+    {
+    if(minorFrameIDList[i] == 0)
+        {
+        byte2 = minorFramesDec[i][8];
+        byte1 = minorFramesDec[i][9];
+        dayNum =(byte2<<1)+((byte1|128) >> 7);
+
+        //byte1 = minorFramesDec[i][9];
+        byte2 = minorFramesDec[i][10];
+        byte3 = minorFramesDec[i][11];
+        byte4 = minorFramesDec[i][12];
+        timeStamp = (((byte1 & 0b111) << 24) + (byte2<<16) + (byte3<<8) + byte4) / 1000.0;
+        if(timeStamp < 86400) //there aren't this many seconds in a day, clearly this is an error
+            {
+            timeStampList.append(timeStamp);
+            timeStampTimeList.append(minorFrameTimes[i]);
+
+            windowContents.append("Frame " + QString::number(i) + "\t");
+            windowContents.append("Day " + QString::number(dayNum) + "\t");
+            windowContents.append(QString::number(minorFrameTimes[i],'f',2));
+            windowContents.append(" Local Seconds is ");
+            windowContents.append(QString::number(timeStamp,'f',2));
+            windowContents.append(" Spacecraft Day Seconds");
+
+
+            hour = floor(timeStamp/(60.0*60.0));
+            minute = floor((timeStamp/(60.0*60.0) - hour)*60.0);
+            seconds = (((timeStamp/(60.0*60.0) - hour)*60.0) - minute) *60.0;
+            windowContents.append(" which is ");
+            windowContents.append(QString::number(hour));
+            windowContents.append(":");
+            windowContents.append(QString::number(minute));
+            windowContents.append(":");
+            windowContents.append(QString::number(seconds,'f',2));
+            //fprintf(['' num2str(hour) ':' num2str(minute) ':' num2str(seconds)]);
+
+            windowContents.append("\tt(0) => ");
+
+            float deltaTimeSec = timeStamp-minorFrameTimes[i];
+            hour = floor((deltaTimeSec)/(60.0*60.0));
+            minute = floor(((deltaTimeSec)/(60.0*60.0) - hour)*60.0);
+            seconds = ((((deltaTimeSec)/(60.0*60.0) - hour)*60.0) - minute) *60.0;
+
+            //windowContents.append(QString::number(deltaTimeSec));
+            //windowContents.append("deltasec ");
+            windowContents.append(QString::number(hour));
+            windowContents.append(":");
+            windowContents.append(QString::number(minute));
+            windowContents.append(":");
+            windowContents.append(QString::number(seconds,'f',2));
+
+            /* We can do better error detection than this, like deviation from T0 maybe
+                    if idx > 1 && dayMSeconds(idx) <= dayMSeconds(idx-1)
+                        fprintf(' ...but this might be an error');
+                    else
+                        hour = floor((dayMSeconds(idx)-frameTime(frame,1)*1000)/(1000*60*60));
+                        minute = floor(((dayMSeconds(idx)-frameTime(frame,1)*1000)/(1000*60*60) - hour)*60);
+                        seconds = ((((dayMSeconds(idx)-frameTime(frame,1)*1000)/(1000*60*60) - hour)*60) - minute) *60;
+                        fprintf(['' num2str(hour) ':' num2str(minute) ':' num2str(seconds)]);
+                    end
+                    fprintf('\n');*/
+            windowContents.append('\n');
+            }
+        }
+
+    }
+ui->TimeStampTextBox->insertPlainText(windowContents);
 }
 
 void MainWindow::populateSummaryTable()
@@ -370,8 +451,9 @@ ui->SPIDList->insertPlainText(windowContents);
     //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
     marker->setStyle(QwtSymbol::Ellipse);
     marker->setSize(4);
-    marker->setColor(QColor( "Purple" ));
-    marker->setPen(QColor( "Magenta" ));
+
+    marker->setColor(QColor( "purple" ));
+    marker->setPen(QColor( "cyan" ));
     curve1->setSymbol(marker);
 
     curve1->attach(ui->SPIDPlot);
@@ -387,7 +469,6 @@ ui->SPIDList->insertPlainText(windowContents);
 
 void MainWindow::plotMinorFrameID()
 {
-QList <unsigned int> minorFrameIDList;
 QByteArray spaceCraftIDList;
 QString windowContents;
 unsigned char byte1,byte2;
@@ -434,6 +515,7 @@ ui->MinorFrameIDList->insertPlainText(windowContents);
     //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
     marker->setStyle(QwtSymbol::Ellipse);
     marker->setSize(4);
+
     marker->setColor(QColor( "Purple" ));
     marker->setPen(QColor( "Magenta" ));
     curve1->setSymbol(marker);
