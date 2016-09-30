@@ -2,8 +2,13 @@
 Explore the telemetry gathered from the NOAA spacecraft! 
 
 TODO:
-[ ] Fix hex frame alignment on import
-[ ] Color code the frames so it is easy to visually see stuff
+
+[ ] Pad stuff so everything lines up
+
+[ ] Find a way to color code the hex frames without it taking a billion years because insertHTML() in QT is so freakin' slow.
+
 [ ] Everything
+
 [ ] Everything Always
-[ ] Everything Else
+
+[ ] Everything Else, Sometimes
