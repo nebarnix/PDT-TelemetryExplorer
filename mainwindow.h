@@ -23,9 +23,14 @@ private slots:
     void open();
     void updateViewOnTreeClick(QTreeWidgetItem *item, int column);
 //void QTreeWidget::itemDoubleClicked(QTreeWidgetItem *item, int column)
+
 private:
     Ui::MainWindow *ui;
     QStringList minorFramesHex;
+    //QByteArray minorFrame[103];
+    QList <float> minorFrameTimes;
+    void displayMinorFramesHex();
+    void displaySpaceCraftID();
 };
 
 #endif // MAINWINDOW_H
