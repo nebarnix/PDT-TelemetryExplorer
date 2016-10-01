@@ -192,21 +192,30 @@
         <property name="title">
          <string>The Good Stuff</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>4</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="Demod">
             <layout class="QGridLayout" name="gridLayout_3">
              <item row="0" column="0">
               <widget class="QLabel" name="label">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>1</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Demodulation Details&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The modulation scheme is a non orthagonal BPSK, also known as a preserved carrier PSK.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The phase shift is between -67 and +67 degrees, which allows the carrier frequency to be preserved and tracked using a simple PLL. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The bits are manchester coded for ease of clock recovery, which means there are two symbols per bit. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Summary: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Dsplays the results of the demodulation&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Raw Hex: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Displays the raw minor frames in hex format for visualization or copy/paste into another application&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Parity: &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Calculates the errors in the bitstream in 5 chunks and verifies that there are at least an even or odd number of errors in each chunk.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::RichText</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
@@ -214,17 +223,26 @@
               </widget>
              </item>
              <item row="1" column="0">
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
+              <widget class="QLabel" name="label_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>1</verstretch>
+                </sizepolicy>
                </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
+               <property name="text">
+                <string/>
                </property>
-              </spacer>
+               <property name="pixmap">
+                <pixmap>../../vmshare/POES/POES_view_spectrumsm.png</pixmap>
+               </property>
+               <property name="scaledContents">
+                <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -300,19 +318,11 @@
             </layout>
            </widget>
            <widget class="QWidget" name="Parity">
-            <widget class="QLabel" name="label_4">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>55</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Parity</string>
-             </property>
-            </widget>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QPlainTextEdit" name="parityTextEdit"/>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="SpaceCrft">
             <layout class="QGridLayout" name="gridLayout_10">
@@ -388,7 +398,11 @@
            <widget class="QWidget" name="TStamp">
             <layout class="QGridLayout" name="gridLayout_11">
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="TimeStampTextBox"/>
+              <widget class="QPlainTextEdit" name="TimeStampTextBox">
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>

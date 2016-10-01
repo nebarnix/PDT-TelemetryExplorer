@@ -22,11 +22,11 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "qwt_plot.h"
 
@@ -42,12 +42,12 @@ public:
     QGroupBox *TreeBox;
     QTreeWidget *treeWidget;
     QGroupBox *groupBox;
-    QGridLayout *gridLayout_2;
+    QVBoxLayout *verticalLayout;
     QStackedWidget *stackedWidget;
     QWidget *Demod;
     QGridLayout *gridLayout_3;
     QLabel *label;
-    QSpacerItem *verticalSpacer;
+    QLabel *label_2;
     QWidget *Summary;
     QTableWidget *summaryTable;
     QWidget *RawHex;
@@ -55,7 +55,8 @@ public:
     QLabel *label_3;
     QPlainTextEdit *minorFrameBrowser;
     QWidget *Parity;
-    QLabel *label_4;
+    QGridLayout *gridLayout_2;
+    QPlainTextEdit *parityTextEdit;
     QWidget *SpaceCrft;
     QGridLayout *gridLayout_10;
     QLabel *label_5;
@@ -159,10 +160,10 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
         groupBox->setSizePolicy(sizePolicy1);
-        gridLayout_2 = new QGridLayout(groupBox);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        verticalLayout = new QVBoxLayout(groupBox);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         stackedWidget = new QStackedWidget(groupBox);
         stackedWidget->setObjectName(QStringLiteral("stackedWidget"));
         Demod = new QWidget();
@@ -173,14 +174,26 @@ public:
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         label = new QLabel(Demod);
         label->setObjectName(QStringLiteral("label"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(1);
+        sizePolicy2.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy2);
         label->setTextFormat(Qt::RichText);
+        label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
         label->setWordWrap(true);
 
         gridLayout_3->addWidget(label, 0, 0, 1, 1);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        label_2 = new QLabel(Demod);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        sizePolicy2.setHeightForWidth(label_2->sizePolicy().hasHeightForWidth());
+        label_2->setSizePolicy(sizePolicy2);
+        label_2->setPixmap(QPixmap(QString::fromUtf8("../../vmshare/POES/POES_view_spectrumsm.png")));
+        label_2->setScaledContents(true);
+        label_2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
-        gridLayout_3->addItem(verticalSpacer, 1, 0, 1, 1);
+        gridLayout_3->addWidget(label_2, 1, 0, 1, 1);
 
         stackedWidget->addWidget(Demod);
         Summary = new QWidget();
@@ -226,9 +239,15 @@ public:
         stackedWidget->addWidget(RawHex);
         Parity = new QWidget();
         Parity->setObjectName(QStringLiteral("Parity"));
-        label_4 = new QLabel(Parity);
-        label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(0, 0, 55, 16));
+        gridLayout_2 = new QGridLayout(Parity);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        parityTextEdit = new QPlainTextEdit(Parity);
+        parityTextEdit->setObjectName(QStringLiteral("parityTextEdit"));
+
+        gridLayout_2->addWidget(parityTextEdit, 0, 0, 1, 1);
+
         stackedWidget->addWidget(Parity);
         SpaceCrft = new QWidget();
         SpaceCrft->setObjectName(QStringLiteral("SpaceCrft"));
@@ -252,21 +271,21 @@ public:
         gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         SPIDPlot = new QwtPlot(SPC_ID);
         SPIDPlot->setObjectName(QStringLiteral("SPIDPlot"));
-        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(7);
-        sizePolicy2.setHeightForWidth(SPIDPlot->sizePolicy().hasHeightForWidth());
-        SPIDPlot->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(7);
+        sizePolicy3.setHeightForWidth(SPIDPlot->sizePolicy().hasHeightForWidth());
+        SPIDPlot->setSizePolicy(sizePolicy3);
 
         gridLayout_4->addWidget(SPIDPlot, 0, 0, 1, 1);
 
         SPIDList = new QPlainTextEdit(SPC_ID);
         SPIDList->setObjectName(QStringLiteral("SPIDList"));
-        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Maximum);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(1);
-        sizePolicy3.setHeightForWidth(SPIDList->sizePolicy().hasHeightForWidth());
-        SPIDList->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Maximum);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(1);
+        sizePolicy4.setHeightForWidth(SPIDList->sizePolicy().hasHeightForWidth());
+        SPIDList->setSizePolicy(sizePolicy4);
         SPIDList->setMaximumSize(QSize(16777215, 87));
 
         gridLayout_4->addWidget(SPIDList, 1, 0, 1, 1);
@@ -280,21 +299,21 @@ public:
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
         minorFrameIDPlot = new QwtPlot(MinorFrameIDs);
         minorFrameIDPlot->setObjectName(QStringLiteral("minorFrameIDPlot"));
-        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(10);
-        sizePolicy4.setHeightForWidth(minorFrameIDPlot->sizePolicy().hasHeightForWidth());
-        minorFrameIDPlot->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy5(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(10);
+        sizePolicy5.setHeightForWidth(minorFrameIDPlot->sizePolicy().hasHeightForWidth());
+        minorFrameIDPlot->setSizePolicy(sizePolicy5);
 
         gridLayout_6->addWidget(minorFrameIDPlot, 0, 0, 1, 1);
 
         MinorFrameIDList = new QPlainTextEdit(MinorFrameIDs);
         MinorFrameIDList->setObjectName(QStringLiteral("MinorFrameIDList"));
-        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(1);
-        sizePolicy5.setHeightForWidth(MinorFrameIDList->sizePolicy().hasHeightForWidth());
-        MinorFrameIDList->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(1);
+        sizePolicy6.setHeightForWidth(MinorFrameIDList->sizePolicy().hasHeightForWidth());
+        MinorFrameIDList->setSizePolicy(sizePolicy6);
 
         gridLayout_6->addWidget(MinorFrameIDList, 1, 0, 1, 1);
 
@@ -307,6 +326,7 @@ public:
         gridLayout_11->setObjectName(QStringLiteral("gridLayout_11"));
         TimeStampTextBox = new QPlainTextEdit(TStamp);
         TimeStampTextBox->setObjectName(QStringLiteral("TimeStampTextBox"));
+        TimeStampTextBox->setLineWrapMode(QPlainTextEdit::NoWrap);
 
         gridLayout_11->addWidget(TimeStampTextBox, 0, 0, 1, 1);
 
@@ -387,7 +407,7 @@ public:
         TED->setObjectName(QStringLiteral("TED"));
         stackedWidget->addWidget(TED);
 
-        gridLayout_2->addWidget(stackedWidget, 0, 1, 1, 1);
+        verticalLayout->addWidget(stackedWidget);
 
 
         horizontalLayout->addWidget(groupBox);
@@ -414,7 +434,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(4);
+        stackedWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -475,6 +495,7 @@ public:
         groupBox->setTitle(QApplication::translate("MainWindow", "The Good Stuff", 0));
         label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Demodulation Details</span></p><p><span style=\" font-size:10pt;\">The modulation scheme is a non orthagonal BPSK, also known as a preserved carrier PSK.</span></p><p><span style=\" font-size:10pt;\">The phase shift is between -67 and +67 degrees, which allows the carrier frequency to be preserved and tracked using a simple PLL. </span></p><p><span style=\" font-size:10pt;\">The bits are manchester coded for ease of clock recovery, which means there are two symbols per bit. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Summary: </span><span style=\" font-size:10pt;\">Dsplays the results of the demodulation</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Raw Hex: </span><span style=\" font-size:10pt;\">Displays the raw minor frames in hex format for visualization or copy/paste into another application</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Parity: </span><span style=\" font-size:10pt;"
                         "\">Calculates the errors in the bitstream in 5 chunks and verifies that there are at least an even or odd number of errors in each chunk.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
+        label_2->setText(QString());
 
         const bool __sortingEnabled1 = summaryTable->isSortingEnabled();
         summaryTable->setSortingEnabled(false);
@@ -487,7 +508,6 @@ public:
         summaryTable->setSortingEnabled(__sortingEnabled1);
 
         label_3->setText(QApplication::translate("MainWindow", "RawHex", 0));
-        label_4->setText(QApplication::translate("MainWindow", "Parity", 0));
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Spacecraft ID: </span><span style=\" font-size:10pt;\">Every minor frame contains a spacecraft ID, which is needed to properly decode the fr"
                         "ames as NOAA-15/18 is slightly different than NOAA-19 </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Minor Frame ID: </span><span style=\" font-size:10pt;\">Every minor frame contains an ID which counts between 0 and 319 and is required to properly decommutate the subcommutated instrument data. It is also a useful plot of data quality.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Timestamps: </span><span style=\" font-size:10pt;\">Every major frame (minor frame 0/320) contains a day number and a clock in milliseconds. The data is useful for ephemris calculations, and the T(0) time is required for initializing the DCS geolocation model.</span></p></body></html>", 0));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">HIRS</span><span style=\" font-size:10pt; font-weight:600;\"> - High Resolution Infrared Sounder</span></p><p><span style=\" font-size:10pt;\">The High Resolution Infrared Sounder subsystem scans the earth view with a constant velocity scanning mirror which directs the view orthagonal to the path of travel of the spacecraft.</span></p><p><span style=\" font-size:10pt;\">The HIRS instrument measures spectral intensity over 20 different wavelengths. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Channels: </span><span style=\" font-size:10pt;\">Displays the per-channel data.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));

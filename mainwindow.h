@@ -31,22 +31,32 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
     QStringList minorFramesHex;
+
     QByteArrayList minorFramesDec;
+
     QList <float> minorFrameTimes;
+    QList <int> knownGoodFrameIndices;
     QList <unsigned int> minorFrameIDList;
     QList <float> timeStampList;
     QList <unsigned long> timeStampTimeList;
+
+    unsigned int numFrames;
+    unsigned int numGoodFrames;
+    unsigned char SFID;
 
     void displayMinorFramesHex();
     void displayMinorFramesDec();
     void convertMinorFramesHex2Dec();
     void displaySpaceCraftID();
     void plotMinorFrameID();
-    void populateSummaryTable();
+    void checkParity();
     void getTimeStamps();
-    unsigned int numFrames;
-    unsigned char SFID;
+    void populateSummaryTable();
+    void clearAll();
+
+
 };
 
 #endif // MAINWINDOW_H
