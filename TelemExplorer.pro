@@ -14,9 +14,9 @@ TEMPLATE = app
 include ( c:/qwt-6.1.3/features/qwt.prf )
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp sem.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h sem.h
 
 FORMS    += mainwindow.ui
 

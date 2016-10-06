@@ -12,49 +12,59 @@
 #include <qwt_plot_magnifier.h>
 #include <qwt_plot_panner.h>
 
-namespace Ui {
+class MainWindow;
+
+#include "sem.h"
+
+namespace Ui
+{
 class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+   Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+   explicit MainWindow(QWidget *parent = 0);
+   ~MainWindow();
+   Ui::MainWindow *ui;
 
 private slots:
-    void open();
-    void updateViewOnTreeClick(QTreeWidgetItem *item, int column);
-//void QTreeWidget::itemDoubleClicked(QTreeWidgetItem *item, int column)
+   void open();
+   void updateViewOnTreeClick(QTreeWidgetItem *item, int column);
+   //void QTreeWidget::itemDoubleClicked(QTreeWidgetItem *item, int column)
 
-private:
-    Ui::MainWindow *ui;
+private:   
 
-    QStringList minorFramesHex;
+   QStringList minorFramesHex;
 
-    QByteArrayList minorFramesDec;
+   QByteArrayList minorFramesDec;
 
-    QList <float> minorFrameTimes;
-    QList <int> knownGoodFrameIndices;
-    QList <unsigned int> minorFrameIDList;
-    QList <float> timeStampList;
-    QList <unsigned long> timeStampTimeList;
+   QList <float> minorFrameTimes;
+   QList <int> knownGoodFrameIndices;
+   QList <unsigned int> minorFrameIDList;
+   QList <float> timeStampList;
+   QList <unsigned long> timeStampTimeList;
 
-    unsigned int numFrames;
-    unsigned int numGoodFrames;
-    unsigned char SFID;
+   SEM *SEMObj; //this object is going to need access to the minorframe ID list... How do we do that?
 
-    void displayMinorFramesHex();
-    void displayMinorFramesDec();
-    void convertMinorFramesHex2Dec();
-    void displaySpaceCraftID();
-    void plotMinorFrameID();
-    void checkParity();
-    void getTimeStamps();
-    void populateSummaryTable();
-    void clearAll();
+   unsigned int numFrames;
+   unsigned int numGoodFrames;
+   unsigned char SFID;
+
+   void displayMinorFramesHex();
+   void displayMinorFramesDec();
+   void convertMinorFramesHex2Dec();
+   void displaySpaceCraftID();
+   void plotMinorFrameID();
+   void checkParity();
+   void getTimeStamps();
+
+   void decomSEM();
+
+   void populateSummaryTable();
+   void clearAll();
 
 
 };

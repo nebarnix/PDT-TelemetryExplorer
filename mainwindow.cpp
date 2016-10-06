@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
    ui(new Ui::MainWindow)
    {
    ui->setupUi(this);
+   SEMObj = new SEM(this);
 
    QFont font("Monospace");
    font.setStyleHint(QFont::TypeWriter);
@@ -43,6 +44,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::clearAll()
    {
+
+   knownGoodFrameIndices.clear();
    minorFramesHex.clear();
    minorFramesDec.clear();
    minorFrameTimes.clear();
@@ -50,6 +53,7 @@ void MainWindow::clearAll()
    timeStampList.clear();
    timeStampTimeList.clear();
    numFrames = 0;
+   numGoodFrames = 0;
    SFID = 0;
    ui->TimeStampTextBox->clear();
    ui->minorFrameBrowser->clear();
@@ -58,6 +62,8 @@ void MainWindow::clearAll()
    ui->MinorFrameIDList->clear();
    ui->minorFrameIDPlot->detachItems();
    ui->SPIDPlot->detachItems();
+
+   SEMObj->clearAll();
    }
 
 void MainWindow::open()
@@ -103,10 +109,14 @@ void MainWindow::open()
       displayMinorFramesHex();
       convertMinorFramesHex2Dec();
       //displayMinorFramesDec(); //no need to spit these out to the DCS box. Its not your box anyway!
+      checkParity();
       displaySpaceCraftID();
       plotMinorFrameID();
       getTimeStamps();
-      checkParity();
+
+      decomSEM();
+      SEMObj->processSEM();
+
       populateSummaryTable();
 
       //Ok, we're done, go to Summary now
@@ -413,7 +423,7 @@ void MainWindow::updateViewOnTreeClick(QTreeWidgetItem *item, int column)
                 "Parity Check" << "Spacecraft" << "Spacecraft ID" << "Minor Frame IDs" << "Timestamps" <<\
                 "HIRS" << "Channels" << "All" << "Telemetry" <<\
                 "DCS" << "DCS Summary" << "CPU" << "CPU A" << "CPU B" <<\
-                "SEM" << "MEPED" << "TED";
+                "SEM" << "MEPED" << "TED" << "TED2";
 
    //Bring forward the item associated with each tab. Enumeration follows the order of the words above.
    //To add a new word it must be in the same order as the stacked widgets tab pages
@@ -500,9 +510,23 @@ void MainWindow::updateViewOnTreeClick(QTreeWidgetItem *item, int column)
       ui->stackedWidget->setCurrentIndex(19);
       ui->groupBox->setTitle(item->text(0));
       break;
+   case 20://TED2
+      ui->stackedWidget->setCurrentIndex(20);
+      ui->groupBox->setTitle(item->text(0));
+      break;
 
       }
    }
+
+void MainWindow::decomSEM()
+   {
+
+   for(uint frame=0; frame < numFrames; frame++)
+      SEMObj->addSEMFrame(255-minorFramesDec[frame][20], 255-minorFramesDec[frame][21], minorFrameIDList[frame], minorFrameTimes[frame], knownGoodFrameIndices.contains(frame));
+
+   }
+
+
 
 void MainWindow::displayMinorFramesHex()
    {
@@ -623,48 +647,82 @@ void MainWindow::displaySpaceCraftID()
    ui->SPIDList->insertPlainText(windowContents);
 
    // add curves
-   QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
-   QImage* image =  new QImage("noaageneral9.jpg");
+   QwtPlotCurve *curveGood = new QwtPlotCurve("Good SPIDs");
+   QwtPlotCurve *curveBad = new QwtPlotCurve("Bad SPIDs");
+   //QImage* image =  new QImage("noaageneral9.jpg");
 
    //ui->SPIDPlot->setFixedSize(image->width(),image->height());
 
-   double *xdata;
-   double *ydata;
-   xdata = new double[numFrames];
-   ydata = new double[numFrames];
+   double *xPointsGood, *xPointsBad;
+   double *yPointsGood, *yPointsBad;
+   unsigned int numPointsGood=numGoodFrames;
+   unsigned int numPointsBad=abs(numFrames-numGoodFrames);
 
-   for(int i=0; i < numFrames; i++)
-      xdata[i] = minorFrameTimes[i];
+   xPointsGood = new double[numPointsGood];
+   yPointsGood = new double[numPointsGood];
 
-   for(int i=0; i < numFrames; i++)
-      ydata[i] = SFIDRaw[i];
+   xPointsBad = new double[numPointsBad];
+   yPointsBad = new double[numPointsBad];
 
-   //QVarLengthArray<double, 1024> xdata; I did this in allspice
+   for(int frame=0, igood=0, ibad=0; frame < numFrames; frame++)
+      {
+      if(knownGoodFrameIndices.contains(frame))
+         {
+         xPointsGood[igood] = minorFrameTimes[frame];
+         yPointsGood[igood] = SFIDRaw[frame];
+         igood++;
+         }
+      else
+         {
+         xPointsBad[ibad] = minorFrameTimes[frame];
+         yPointsBad[ibad] = SFIDRaw[frame];
+         ibad++;
+         }
+      }
 
-   //pointer = QwtCPointerData(&xdata[0],&ydata[0], numFrames);
-   //curve1->setData(new QwtCPointerData(&xdata[0],&ydata[0],(size_t)3));
-   curve1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-   curve1->setRawSamples(&xdata[0], &ydata[0], numFrames);
-   curve1->setPen( QColor( "Purple" ) );
-   //curve1->setStyle( QwtPlotCurve::Dots );
+   //QVarLengthArray<double, 1024> xPointsGood; I did this in allspice
 
-   curve1->setStyle( QwtPlotCurve::NoCurve );
+   QwtSymbol *markerGood = new QwtSymbol;
+   QwtSymbol *markerBad = new QwtSymbol;
+   //curveGood->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
 
-   QwtSymbol *marker = new QwtSymbol;
-   //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
-   marker->setStyle(QwtSymbol::Ellipse);
-   marker->setSize(4);
+   //plot good data
+   markerGood->setStyle(QwtSymbol::Ellipse);
+   markerGood->setSize(4);
+   markerGood->setColor(QColor( "purple" ));
+   markerGood->setPen(QColor( "cyan" ));
 
-   marker->setColor(QColor( "purple" ));
-   marker->setPen(QColor( "cyan" ));
-   curve1->setSymbol(marker);
+   //curveGood->setData(new QwtCPointerData(&xPointsGood[0],&yPointsGood[0],(size_t)3));
+   curveGood->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+   curveGood->setRawSamples(&xPointsGood[0], &yPointsGood[0], numPointsGood);
+   curveGood->setPen( QColor( "Purple" ) );
+   //curveGood->setStyle( QwtPlotCurve::Dots );
+   curveGood->setStyle( QwtPlotCurve::NoCurve );
+   curveGood->setSymbol(markerGood);
 
-   curve1->attach(ui->SPIDPlot);
+
+
+   //plot bad data
+   markerBad->setStyle(QwtSymbol::Star1);
+   markerBad->setSize(3);
+   markerBad->setColor(QColor( "purple" ));
+   markerBad->setPen(QColor( "teal" ));
+
+   //curveGood->setData(new QwtCPointerData(&xPointsGood[0],&yPointsGood[0],(size_t)3));
+   curveBad->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+   curveBad->setRawSamples(&xPointsBad[0], &yPointsBad[0], numPointsBad);
+   curveBad->setPen( QColor( "Purple" ) );
+   //curveGood->setStyle( QwtPlotCurve::Dots );
+   curveBad->setStyle( QwtPlotCurve::NoCurve );
+   curveBad->setSymbol(markerBad);
+
+   curveBad->attach(ui->SPIDPlot);
+   curveGood->attach(ui->SPIDPlot);
 
    (void )new QwtPlotPanner( ui->SPIDPlot->canvas() );
    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->SPIDPlot->canvas() );
    magnifier->setMouseButton( Qt::NoButton );
-
+   ui->SPIDPlot->autoFillBackground();
    // finally, refresh the plot
    ui->SPIDPlot->replot();
    ui->SPIDPlot->show();
@@ -692,38 +750,72 @@ void MainWindow::plotMinorFrameID()
    ui->MinorFrameIDList->insertPlainText(windowContents);
 
    // add curves
-   QwtPlotCurve *curve1 = new QwtPlotCurve("Curve 1");
+   QwtPlotCurve *curveGood = new QwtPlotCurve("Good Frame IDs");
+   QwtPlotCurve *curveBad = new QwtPlotCurve("Bad Frame IDs");
 
-   double *xdata;
-   double *ydata;
-   xdata = new double[numFrames];
-   ydata = new double[numFrames];
+   double *xPointsGood, *xPointsBad;
+   double *yPointsGood, *yPointsBad;
+   unsigned int numPointsGood=numGoodFrames;
+   unsigned int numPointsBad=abs(numFrames-numGoodFrames);
 
-   for(int i=0; i < numFrames; i++)
-      xdata[i] = minorFrameTimes[i];
+   xPointsGood = new double[numPointsGood];
+   yPointsGood = new double[numPointsGood];
 
-   for(int i=0; i < numFrames; i++)
-      ydata[i] = minorFrameIDList[i];
+   xPointsBad = new double[numPointsBad];
+   yPointsBad = new double[numPointsBad];
 
-   //QVarLengthArray<double, 1024> xdata; I did this in allspice
+   for(int frame=0, igood=0, ibad=0; frame < numFrames; frame++)
+      {
+      if(knownGoodFrameIndices.contains(frame))
+         {
+         xPointsGood[igood] = minorFrameTimes[frame];
+         yPointsGood[igood] = minorFrameIDList[frame];
+         igood++;
+         }
+      else
+         {
+         xPointsBad[ibad] = minorFrameTimes[frame];
+         yPointsBad[ibad] = minorFrameIDList[frame];
+         ibad++;
+         }
+      }
 
-   //pointer = QwtCPointerData(&xdata[0],&ydata[0], numFrames);
-   //curve1->setData(new QwtCPointerData(&xdata[0],&ydata[0],(size_t)3));
-   curve1->setRenderHint(QwtPlotItem::RenderAntialiased, true);
-   curve1->setRawSamples(&xdata[0], &ydata[0], numFrames);
+   //QVarLengthArray<double, 1024> xPointsGood; I did this in allspice
 
-   curve1->setStyle( QwtPlotCurve::NoCurve );
+   QwtSymbol *markerGood = new QwtSymbol;
+   QwtSymbol *markerBad = new QwtSymbol;
+   //curveGood->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
 
-   QwtSymbol *marker = new QwtSymbol;
-   //curve1->setSymbol(new QwtSymbol(QwtSymbol::Ellipse,QColor( "Purple" ),QColor( "Purple" ),4));
-   marker->setStyle(QwtSymbol::Ellipse);
-   marker->setSize(4);
+   //plot good data
+   markerGood->setStyle(QwtSymbol::Ellipse);
+   markerGood->setSize(4);
+   markerGood->setColor(QColor( "purple" ));
+   markerGood->setPen(QColor( "magenta" ));
 
-   marker->setColor(QColor( "Purple" ));
-   marker->setPen(QColor( "Magenta" ));
-   curve1->setSymbol(marker);
+   //curveGood->setData(new QwtCPointerData(&xPointsGood[0],&yPointsGood[0],(size_t)3));
+   curveGood->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+   curveGood->setRawSamples(&xPointsGood[0], &yPointsGood[0], numPointsGood);
+   curveGood->setPen( QColor( "Purple" ) );
+   //curveGood->setStyle( QwtPlotCurve::Dots );
+   curveGood->setStyle( QwtPlotCurve::NoCurve );
+   curveGood->setSymbol(markerGood);
 
-   curve1->attach(ui->minorFrameIDPlot);
+   //plot bad data
+   markerBad->setStyle(QwtSymbol::Star1);
+   markerBad->setSize(3);
+   markerBad->setColor(QColor( "purple" ));
+   markerBad->setPen(QColor( "purple" ));
+
+   //curveGood->setData(new QwtCPointerData(&xPointsGood[0],&yPointsGood[0],(size_t)3));
+   curveBad->setRenderHint(QwtPlotItem::RenderAntialiased, true);
+   curveBad->setRawSamples(&xPointsBad[0], &yPointsBad[0], numPointsBad);
+   curveBad->setPen( QColor( "Purple" ) );
+   //curveGood->setStyle( QwtPlotCurve::Dots );
+   curveBad->setStyle( QwtPlotCurve::NoCurve );
+   curveBad->setSymbol(markerBad);
+
+   curveBad->attach(ui->minorFrameIDPlot);
+   curveGood->attach(ui->minorFrameIDPlot);
 
    (void )new QwtPlotPanner( ui->minorFrameIDPlot->canvas() );
    QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->minorFrameIDPlot->canvas() );
