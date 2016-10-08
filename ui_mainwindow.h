@@ -40,6 +40,7 @@ public:
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
     QGroupBox *TreeBox;
+    QGridLayout *gridLayout_16;
     QTreeWidget *treeWidget;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
@@ -91,37 +92,39 @@ public:
     QGridLayout *gridLayout_12;
     QLabel *label_4;
     QWidget *MEPED;
-    QwtPlot *MEPED90EPlot;
-    QwtPlot *MEPED0EPlot;
-    QwtPlot *MEPED0PPlot;
-    QwtPlot *MEPED90PPlot;
-    QwtPlot *MEPEDOmniPPlot;
-    QLabel *label_6;
+    QGridLayout *gridLayout_15;
     QLabel *label_10;
     QLabel *label_11;
+    QwtPlot *MEPED0EPlot;
+    QwtPlot *MEPED90EPlot;
     QLabel *label_12;
     QLabel *label_13;
+    QwtPlot *MEPED0PPlot;
+    QwtPlot *MEPED90PPlot;
+    QLabel *label_6;
+    QwtPlot *MEPEDOmniPPlot;
     QWidget *TED;
-    QwtPlot *TEDMaxDEPlot;
-    QwtPlot *TEDLowPlot;
-    QwtPlot *TEDHighPlot;
-    QwtPlot *TEDEMaxDEPlot;
-    QwtPlot *TEDBackPlot;
+    QGridLayout *gridLayout_14;
     QLabel *label_14;
     QLabel *label_15;
+    QwtPlot *TEDLowPlot;
+    QwtPlot *TEDHighPlot;
     QLabel *label_16;
-    QLabel *label_17;
     QLabel *label_18;
+    QwtPlot *TEDMaxDEPlot;
+    QwtPlot *TEDEMaxDEPlot;
+    QwtPlot *TEDBackPlot;
     QLabel *label_19;
     QWidget *TED2;
-    QwtPlot *TEDFluxSpecPlotE2;
-    QwtPlot *TEDFluxSpecPlotE1;
-    QwtPlot *TEDFluxSpecPlotP1;
-    QwtPlot *TEDFluxSpecPlotP2;
-    QLabel *label_22;
-    QLabel *label_23;
+    QGridLayout *gridLayout_13;
     QLabel *label_20;
     QLabel *label_21;
+    QwtPlot *TEDFluxSpecPlotE1;
+    QwtPlot *TEDFluxSpecPlotE2;
+    QLabel *label_22;
+    QLabel *label_23;
+    QwtPlot *TEDFluxSpecPlotP1;
+    QwtPlot *TEDFluxSpecPlotP2;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuExit;
@@ -151,9 +154,13 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(TreeBox->sizePolicy().hasHeightForWidth());
         TreeBox->setSizePolicy(sizePolicy);
-        TreeBox->setMinimumSize(QSize(256, 0));
-        TreeBox->setMaximumSize(QSize(256, 16777215));
+        TreeBox->setMinimumSize(QSize(200, 0));
+        TreeBox->setMaximumSize(QSize(200, 16777215));
         TreeBox->setBaseSize(QSize(500, 0));
+        gridLayout_16 = new QGridLayout(TreeBox);
+        gridLayout_16->setSpacing(6);
+        gridLayout_16->setContentsMargins(11, 11, 11, 11);
+        gridLayout_16->setObjectName(QStringLiteral("gridLayout_16"));
         treeWidget = new QTreeWidget(TreeBox);
         QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem(treeWidget);
         new QTreeWidgetItem(__qtreewidgetitem);
@@ -177,12 +184,14 @@ public:
         new QTreeWidgetItem(__qtreewidgetitem6);
         new QTreeWidgetItem(__qtreewidgetitem6);
         treeWidget->setObjectName(QStringLiteral("treeWidget"));
-        treeWidget->setGeometry(QRect(10, 20, 231, 581));
         treeWidget->setWordWrap(true);
         treeWidget->setExpandsOnDoubleClick(false);
         treeWidget->header()->setCascadingSectionResizes(true);
         treeWidget->header()->setProperty("showSortIndicator", QVariant(false));
         treeWidget->header()->setStretchLastSection(true);
+
+        gridLayout_16->addWidget(treeWidget, 0, 0, 1, 1);
+
 
         horizontalLayout->addWidget(TreeBox);
 
@@ -449,120 +458,212 @@ public:
         MEPED->setObjectName(QStringLiteral("MEPED"));
         MEPED->setEnabled(true);
         MEPED->setBaseSize(QSize(744, 588));
-        MEPED90EPlot = new QwtPlot(MEPED);
-        MEPED90EPlot->setObjectName(QStringLiteral("MEPED90EPlot"));
-        MEPED90EPlot->setGeometry(QRect(376, 39, 357, 154));
-        MEPED90EPlot->setFrameShape(QFrame::NoFrame);
-        QBrush brush(QColor(255, 255, 255, 255));
-        brush.setStyle(Qt::SolidPattern);
-        MEPED90EPlot->setCanvasBackground(brush);
-        MEPED0EPlot = new QwtPlot(MEPED);
-        MEPED0EPlot->setObjectName(QStringLiteral("MEPED0EPlot"));
-        MEPED0EPlot->setGeometry(QRect(11, 39, 358, 154));
-        MEPED0EPlot->setFrameShape(QFrame::NoFrame);
-        MEPED0EPlot->setCanvasBackground(brush);
-        MEPED0PPlot = new QwtPlot(MEPED);
-        MEPED0PPlot->setObjectName(QStringLiteral("MEPED0PPlot"));
-        MEPED0PPlot->setGeometry(QRect(11, 228, 358, 155));
-        MEPED0PPlot->setFrameShape(QFrame::NoFrame);
-        MEPED0PPlot->setCanvasBackground(brush);
-        MEPED90PPlot = new QwtPlot(MEPED);
-        MEPED90PPlot->setObjectName(QStringLiteral("MEPED90PPlot"));
-        MEPED90PPlot->setGeometry(QRect(376, 228, 357, 155));
-        MEPED90PPlot->setFrameShape(QFrame::NoFrame);
-        MEPED90PPlot->setCanvasBackground(brush);
-        MEPEDOmniPPlot = new QwtPlot(MEPED);
-        MEPEDOmniPPlot->setObjectName(QStringLiteral("MEPEDOmniPPlot"));
-        MEPEDOmniPPlot->setGeometry(QRect(11, 418, 722, 154));
-        MEPEDOmniPPlot->setFrameShape(QFrame::NoFrame);
-        MEPEDOmniPPlot->setCanvasBackground(brush);
-        label_6 = new QLabel(MEPED);
-        label_6->setObjectName(QStringLiteral("label_6"));
-        label_6->setGeometry(QRect(11, 390, 264, 21));
+        gridLayout_15 = new QGridLayout(MEPED);
+        gridLayout_15->setSpacing(6);
+        gridLayout_15->setContentsMargins(11, 11, 11, 11);
+        gridLayout_15->setObjectName(QStringLiteral("gridLayout_15"));
         label_10 = new QLabel(MEPED);
         label_10->setObjectName(QStringLiteral("label_10"));
-        label_10->setGeometry(QRect(11, 11, 181, 21));
+
+        gridLayout_15->addWidget(label_10, 0, 0, 1, 1);
+
         label_11 = new QLabel(MEPED);
         label_11->setObjectName(QStringLiteral("label_11"));
-        label_11->setGeometry(QRect(376, 11, 192, 21));
+
+        gridLayout_15->addWidget(label_11, 0, 1, 1, 1);
+
+        MEPED0EPlot = new QwtPlot(MEPED);
+        MEPED0EPlot->setObjectName(QStringLiteral("MEPED0EPlot"));
+        MEPED0EPlot->setMinimumSize(QSize(10, 10));
+        MEPED0EPlot->setFrameShape(QFrame::NoFrame);
+        QBrush brush(QColor(255, 255, 255, 255));
+        brush.setStyle(Qt::SolidPattern);
+        MEPED0EPlot->setCanvasBackground(brush);
+
+        gridLayout_15->addWidget(MEPED0EPlot, 1, 0, 1, 1);
+
+        MEPED90EPlot = new QwtPlot(MEPED);
+        MEPED90EPlot->setObjectName(QStringLiteral("MEPED90EPlot"));
+        MEPED90EPlot->setMinimumSize(QSize(10, 10));
+        MEPED90EPlot->setFrameShape(QFrame::NoFrame);
+        MEPED90EPlot->setCanvasBackground(brush);
+
+        gridLayout_15->addWidget(MEPED90EPlot, 1, 1, 1, 1);
+
         label_12 = new QLabel(MEPED);
         label_12->setObjectName(QStringLiteral("label_12"));
-        label_12->setGeometry(QRect(11, 200, 169, 21));
+
+        gridLayout_15->addWidget(label_12, 2, 0, 1, 1);
+
         label_13 = new QLabel(MEPED);
         label_13->setObjectName(QStringLiteral("label_13"));
-        label_13->setGeometry(QRect(376, 200, 180, 21));
+
+        gridLayout_15->addWidget(label_13, 2, 1, 1, 1);
+
+        MEPED0PPlot = new QwtPlot(MEPED);
+        MEPED0PPlot->setObjectName(QStringLiteral("MEPED0PPlot"));
+        MEPED0PPlot->setMinimumSize(QSize(10, 10));
+        MEPED0PPlot->setFrameShape(QFrame::NoFrame);
+        MEPED0PPlot->setCanvasBackground(brush);
+
+        gridLayout_15->addWidget(MEPED0PPlot, 3, 0, 1, 1);
+
+        MEPED90PPlot = new QwtPlot(MEPED);
+        MEPED90PPlot->setObjectName(QStringLiteral("MEPED90PPlot"));
+        MEPED90PPlot->setMinimumSize(QSize(10, 10));
+        MEPED90PPlot->setFrameShape(QFrame::NoFrame);
+        MEPED90PPlot->setCanvasBackground(brush);
+
+        gridLayout_15->addWidget(MEPED90PPlot, 3, 1, 1, 1);
+
+        label_6 = new QLabel(MEPED);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        gridLayout_15->addWidget(label_6, 4, 0, 1, 1);
+
+        MEPEDOmniPPlot = new QwtPlot(MEPED);
+        MEPEDOmniPPlot->setObjectName(QStringLiteral("MEPEDOmniPPlot"));
+        MEPEDOmniPPlot->setMinimumSize(QSize(10, 10));
+        MEPEDOmniPPlot->setFrameShape(QFrame::NoFrame);
+        MEPEDOmniPPlot->setCanvasBackground(brush);
+
+        gridLayout_15->addWidget(MEPEDOmniPPlot, 5, 0, 1, 2);
+
         stackedWidget->addWidget(MEPED);
         TED = new QWidget();
         TED->setObjectName(QStringLiteral("TED"));
-        TEDMaxDEPlot = new QwtPlot(TED);
-        TEDMaxDEPlot->setObjectName(QStringLiteral("TEDMaxDEPlot"));
-        TEDMaxDEPlot->setGeometry(QRect(11, 228, 358, 155));
-        TEDMaxDEPlot->setCanvasBackground(brush);
-        TEDLowPlot = new QwtPlot(TED);
-        TEDLowPlot->setObjectName(QStringLiteral("TEDLowPlot"));
-        TEDLowPlot->setGeometry(QRect(11, 39, 358, 154));
-        TEDLowPlot->setCanvasBackground(brush);
-        TEDHighPlot = new QwtPlot(TED);
-        TEDHighPlot->setObjectName(QStringLiteral("TEDHighPlot"));
-        TEDHighPlot->setGeometry(QRect(376, 39, 357, 154));
-        TEDHighPlot->setCanvasBackground(brush);
-        TEDEMaxDEPlot = new QwtPlot(TED);
-        TEDEMaxDEPlot->setObjectName(QStringLiteral("TEDEMaxDEPlot"));
-        TEDEMaxDEPlot->setGeometry(QRect(376, 228, 357, 155));
-        TEDEMaxDEPlot->setCanvasBackground(brush);
-        TEDBackPlot = new QwtPlot(TED);
-        TEDBackPlot->setObjectName(QStringLiteral("TEDBackPlot"));
-        TEDBackPlot->setGeometry(QRect(12, 418, 721, 154));
-        TEDBackPlot->setCanvasBackground(brush);
+        gridLayout_14 = new QGridLayout(TED);
+        gridLayout_14->setSpacing(6);
+        gridLayout_14->setContentsMargins(11, 11, 11, 11);
+        gridLayout_14->setObjectName(QStringLiteral("gridLayout_14"));
         label_14 = new QLabel(TED);
         label_14->setObjectName(QStringLiteral("label_14"));
-        label_14->setGeometry(QRect(11, 11, 257, 21));
+        label_14->setMinimumSize(QSize(0, 21));
+
+        gridLayout_14->addWidget(label_14, 0, 0, 1, 1);
+
         label_15 = new QLabel(TED);
         label_15->setObjectName(QStringLiteral("label_15"));
-        label_15->setGeometry(QRect(376, 11, 241, 21));
+        label_15->setMinimumSize(QSize(0, 21));
+
+        gridLayout_14->addWidget(label_15, 0, 1, 1, 1);
+
+        TEDLowPlot = new QwtPlot(TED);
+        TEDLowPlot->setObjectName(QStringLiteral("TEDLowPlot"));
+        TEDLowPlot->setMinimumSize(QSize(10, 10));
+        TEDLowPlot->setCanvasBackground(brush);
+
+        gridLayout_14->addWidget(TEDLowPlot, 1, 0, 1, 1);
+
+        TEDHighPlot = new QwtPlot(TED);
+        TEDHighPlot->setObjectName(QStringLiteral("TEDHighPlot"));
+        TEDHighPlot->setMinimumSize(QSize(10, 10));
+        TEDHighPlot->setCanvasBackground(brush);
+
+        gridLayout_14->addWidget(TEDHighPlot, 1, 1, 1, 1);
+
         label_16 = new QLabel(TED);
         label_16->setObjectName(QStringLiteral("label_16"));
-        label_16->setGeometry(QRect(11, 200, 290, 21));
-        label_17 = new QLabel(TED);
-        label_17->setObjectName(QStringLiteral("label_17"));
-        label_17->setGeometry(QRect(11, 390, 286, 21));
+        label_16->setMinimumSize(QSize(0, 21));
+
+        gridLayout_14->addWidget(label_16, 2, 0, 1, 1);
+
         label_18 = new QLabel(TED);
         label_18->setObjectName(QStringLiteral("label_18"));
-        label_18->setGeometry(QRect(376, 200, 357, 21));
+        label_18->setMinimumSize(QSize(0, 21));
+
+        gridLayout_14->addWidget(label_18, 2, 1, 1, 1);
+
+        TEDMaxDEPlot = new QwtPlot(TED);
+        TEDMaxDEPlot->setObjectName(QStringLiteral("TEDMaxDEPlot"));
+        TEDMaxDEPlot->setMinimumSize(QSize(10, 10));
+        TEDMaxDEPlot->setCanvasBackground(brush);
+
+        gridLayout_14->addWidget(TEDMaxDEPlot, 3, 0, 1, 1);
+
+        TEDEMaxDEPlot = new QwtPlot(TED);
+        TEDEMaxDEPlot->setObjectName(QStringLiteral("TEDEMaxDEPlot"));
+        TEDEMaxDEPlot->setMinimumSize(QSize(10, 10));
+        TEDEMaxDEPlot->setCanvasBackground(brush);
+
+        gridLayout_14->addWidget(TEDEMaxDEPlot, 3, 1, 1, 1);
+
+        TEDBackPlot = new QwtPlot(TED);
+        TEDBackPlot->setObjectName(QStringLiteral("TEDBackPlot"));
+        TEDBackPlot->setMinimumSize(QSize(10, 10));
+        TEDBackPlot->setCanvasBackground(brush);
+
+        gridLayout_14->addWidget(TEDBackPlot, 5, 0, 1, 2);
+
         label_19 = new QLabel(TED);
         label_19->setObjectName(QStringLiteral("label_19"));
-        label_19->setGeometry(QRect(376, 390, 103, 21));
+        label_19->setMinimumSize(QSize(0, 21));
+
+        gridLayout_14->addWidget(label_19, 4, 0, 1, 1);
+
         stackedWidget->addWidget(TED);
         TED2 = new QWidget();
         TED2->setObjectName(QStringLiteral("TED2"));
-        TEDFluxSpecPlotE2 = new QwtPlot(TED2);
-        TEDFluxSpecPlotE2->setObjectName(QStringLiteral("TEDFluxSpecPlotE2"));
-        TEDFluxSpecPlotE2->setGeometry(QRect(376, 40, 341, 235));
-        TEDFluxSpecPlotE2->setCanvasBackground(brush);
-        TEDFluxSpecPlotE1 = new QwtPlot(TED2);
-        TEDFluxSpecPlotE1->setObjectName(QStringLiteral("TEDFluxSpecPlotE1"));
-        TEDFluxSpecPlotE1->setGeometry(QRect(12, 40, 341, 235));
-        TEDFluxSpecPlotE1->setCanvasBackground(brush);
-        TEDFluxSpecPlotP1 = new QwtPlot(TED2);
-        TEDFluxSpecPlotP1->setObjectName(QStringLiteral("TEDFluxSpecPlotP1"));
-        TEDFluxSpecPlotP1->setGeometry(QRect(12, 323, 341, 235));
-        TEDFluxSpecPlotP1->setCanvasBackground(brush);
-        TEDFluxSpecPlotP2 = new QwtPlot(TED2);
-        TEDFluxSpecPlotP2->setObjectName(QStringLiteral("TEDFluxSpecPlotP2"));
-        TEDFluxSpecPlotP2->setGeometry(QRect(376, 323, 351, 235));
-        TEDFluxSpecPlotP2->setCanvasBackground(brush);
-        label_22 = new QLabel(TED2);
-        label_22->setObjectName(QStringLiteral("label_22"));
-        label_22->setGeometry(QRect(12, 295, 227, 21));
-        label_23 = new QLabel(TED2);
-        label_23->setObjectName(QStringLiteral("label_23"));
-        label_23->setGeometry(QRect(376, 295, 238, 21));
+        gridLayout_13 = new QGridLayout(TED2);
+        gridLayout_13->setSpacing(6);
+        gridLayout_13->setContentsMargins(11, 11, 11, 11);
+        gridLayout_13->setObjectName(QStringLiteral("gridLayout_13"));
         label_20 = new QLabel(TED2);
         label_20->setObjectName(QStringLiteral("label_20"));
-        label_20->setGeometry(QRect(12, 12, 239, 21));
+        label_20->setMinimumSize(QSize(10, 21));
+
+        gridLayout_13->addWidget(label_20, 0, 0, 1, 1);
+
         label_21 = new QLabel(TED2);
         label_21->setObjectName(QStringLiteral("label_21"));
-        label_21->setGeometry(QRect(376, 12, 250, 21));
+        label_21->setMinimumSize(QSize(10, 21));
+
+        gridLayout_13->addWidget(label_21, 0, 1, 1, 1);
+
+        TEDFluxSpecPlotE1 = new QwtPlot(TED2);
+        TEDFluxSpecPlotE1->setObjectName(QStringLiteral("TEDFluxSpecPlotE1"));
+        TEDFluxSpecPlotE1->setMinimumSize(QSize(10, 10));
+        TEDFluxSpecPlotE1->setBaseSize(QSize(10, 10));
+        TEDFluxSpecPlotE1->setCanvasBackground(brush);
+
+        gridLayout_13->addWidget(TEDFluxSpecPlotE1, 1, 0, 1, 1);
+
+        TEDFluxSpecPlotE2 = new QwtPlot(TED2);
+        TEDFluxSpecPlotE2->setObjectName(QStringLiteral("TEDFluxSpecPlotE2"));
+        TEDFluxSpecPlotE2->setMinimumSize(QSize(10, 10));
+        TEDFluxSpecPlotE2->setBaseSize(QSize(10, 10));
+        TEDFluxSpecPlotE2->setCanvasBackground(brush);
+
+        gridLayout_13->addWidget(TEDFluxSpecPlotE2, 1, 1, 1, 1);
+
+        label_22 = new QLabel(TED2);
+        label_22->setObjectName(QStringLiteral("label_22"));
+        label_22->setMinimumSize(QSize(50, 21));
+
+        gridLayout_13->addWidget(label_22, 2, 0, 1, 1);
+
+        label_23 = new QLabel(TED2);
+        label_23->setObjectName(QStringLiteral("label_23"));
+        label_23->setMinimumSize(QSize(50, 21));
+
+        gridLayout_13->addWidget(label_23, 2, 1, 1, 1);
+
+        TEDFluxSpecPlotP1 = new QwtPlot(TED2);
+        TEDFluxSpecPlotP1->setObjectName(QStringLiteral("TEDFluxSpecPlotP1"));
+        TEDFluxSpecPlotP1->setMinimumSize(QSize(10, 10));
+        TEDFluxSpecPlotP1->setBaseSize(QSize(10, 10));
+        TEDFluxSpecPlotP1->setCanvasBackground(brush);
+
+        gridLayout_13->addWidget(TEDFluxSpecPlotP1, 3, 0, 1, 1);
+
+        TEDFluxSpecPlotP2 = new QwtPlot(TED2);
+        TEDFluxSpecPlotP2->setObjectName(QStringLiteral("TEDFluxSpecPlotP2"));
+        TEDFluxSpecPlotP2->setMinimumSize(QSize(10, 10));
+        TEDFluxSpecPlotP2->setBaseSize(QSize(10, 10));
+        TEDFluxSpecPlotP2->setCanvasBackground(brush);
+
+        gridLayout_13->addWidget(TEDFluxSpecPlotP2, 3, 1, 1, 1);
+
         stackedWidget->addWidget(TED2);
 
         verticalLayout->addWidget(stackedWidget);
@@ -593,7 +694,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(20);
+        stackedWidget->setCurrentIndex(18);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -676,21 +777,20 @@ public:
         label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">CPU Telemetry</span></p><p><br/></p><p><span style=\" font-size:10pt;\">CPU Telemetry is still being reverse engineered and is probably impossible to completely understand given the amount of possible magic data</span></p></body></html>", 0));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">SEM - </span></p><p><span style=\" font-size:10pt;\">The SEM package contains two instruments for monitoring the space weather charged particle environemnt. The neat thing about the MEPED instrument is that one can use this data (perhaps along with epheris queries) to discover if there is an aurora borealis visible, and how intense, over one's current location. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">MEPED </span><span style=\" font-size:10pt;\">- MEPED Digital A data consists of six directional proton measurements and three directional electron measurements for each of two directions of incidence (0 and 90 degrees) and four omni-directional proton measurements. All but the two highest energy omni-directional proton measurements are read out every two seconds. The two highest energy omnidirectional proton measurements are read out every four seconds. The MEPED Digital A data and readout rates are summarized in Table"
                         " 4.3.4.2-2.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">TED - </span><span style=\" font-size:10pt;\">TED Digital A data consists of a 0.05 to 1 keV partial energy flux measurement, a 1 to 20 keV partial energy flux measurement, maximum differential energy fluxes, four-point differential energy spectra and background measurements for electrons and protons, each at two angles of incidence (0 and 30 degrees).</span></p></body></html>", 0));
-        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Omni-Directional Proton Count</span></p></body></html>", 0));
         label_10->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0 Deg Electron Count</span></p></body></html>", 0));
         label_11->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">90 Deg Electron Count</span></p></body></html>", 0));
         label_12->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0 Deg Proton Count</span></p></body></html>", 0));
         label_13->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">90 Deg Proton Count</span></p></body></html>", 0));
+        label_6->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Omni-Directional Proton Count</span></p></body></html>", 0));
         label_14->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0.05-1 keV Partial Energy Flux</span></p></body></html>", 0));
         label_15->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">2-10 keV Partial Energy Flux</span></p></body></html>", 0));
-        label_16->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Maximum Differential Energy Flux</span></p></body></html>", 0));
-        label_17->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Four Point Energy/Flux Spectrum</span></p></body></html>", 0));
-        label_18->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Energy of Maximum Differential Energy Flux</span></p></body></html>", 0));
+        label_16->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; font-weight:600;\">Maximum Differential Energy Flux</span></p></body></html>", 0));
+        label_18->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; font-weight:600;\">Energy of Maximum Differential Energy Flux</span></p></body></html>", 0));
         label_19->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Background</span></p></body></html>", 0));
-        label_22->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0 Degree Proton Spectrum</span></p></body></html>", 0));
-        label_23->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">30 Degree Proton Spectrum</span></p></body></html>", 0));
         label_20->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0 Degree Electron Spectrum</span></p></body></html>", 0));
         label_21->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">30 Degree Electron Spectrum</span></p></body></html>", 0));
+        label_22->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">0 Degree Proton Spectrum</span></p></body></html>", 0));
+        label_23->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">30 Degree Proton Spectrum</span></p></body></html>", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuExit->setTitle(QApplication::translate("MainWindow", "Exit", 0));
     } // retranslateUi

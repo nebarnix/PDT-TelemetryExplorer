@@ -56,10 +56,12 @@ void MainWindow::clearAll()
    numGoodFrames = 0;
    SFID = 0;
    ui->TimeStampTextBox->clear();
+   ui->parityTextEdit->clear();
    ui->minorFrameBrowser->clear();
    ui->DCSSumTextBrowser->clear();
    ui->SPIDList->clear();
    ui->MinorFrameIDList->clear();
+
    ui->minorFrameIDPlot->detachItems();
    ui->SPIDPlot->detachItems();
 
@@ -75,8 +77,6 @@ void MainWindow::open()
    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "",
                                                    tr("Minor Frame Files (minorFrames*.txt)"));
 
-   //clear text window
-   ui->minorFrameBrowser->clear();
 
    if (fileName != "")
       {
@@ -99,7 +99,7 @@ void MainWindow::open()
             line.replace("i","");
             line[line.indexOf(' ')] = '\t'; //Replace the first space with a tab
             minorFrameParts = line.split('\t'); //Split on said tab
-            minorFramesHex.append(minorFrameParts[1]);        //Put the hex data right into the window
+            minorFramesHex.append(minorFrameParts[1]);
             minorFrameTimes.append(minorFrameParts[0].toFloat()); //Get the times and convert to float
             }
          }
@@ -544,10 +544,27 @@ void MainWindow::displayMinorFramesHex()
       //cursor.insertText(minorFramesHex[i]);
       //cursor.insertText("\n");
 
-      //this is fast
+      //this meethod is fast
+
+      //please look to see if QString has a padding option...
+      if(i < 10 )
+         windowContents.append("000");
+      else if(i < 100)
+         windowContents.append("00");
+      else if(i < 1000)
+         windowContents.append('0');
+
       windowContents.append(QString::number(i));
       windowContents.append(" ");
       //windowContents.append(" <font color = \"red\">");
+
+      if(minorFrameTimes[i] < 10 )
+         windowContents.append("000");
+      else if(minorFrameTimes[i] < 100)
+         windowContents.append("00");
+      else if(minorFrameTimes[i] < 1000)
+         windowContents.append('0');
+
       windowContents.append(QString::number(minorFrameTimes[i],'f',4));
       //windowContents.append("</font>\t");
       windowContents.append('\t');

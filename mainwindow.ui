@@ -30,13 +30,13 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>256</width>
+          <width>200</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>256</width>
+          <width>200</width>
           <height>16777215</height>
          </size>
         </property>
@@ -49,141 +49,137 @@
         <property name="title">
          <string>Telem-Tree</string>
         </property>
-        <widget class="QTreeWidget" name="treeWidget">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>231</width>
-           <height>581</height>
-          </rect>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="expandsOnDoubleClick">
-          <bool>false</bool>
-         </property>
-         <attribute name="headerCascadingSectionResizes">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="headerShowSortIndicator" stdset="0">
-          <bool>false</bool>
-         </attribute>
-         <attribute name="headerStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <column>
-          <property name="text">
-           <string>Instrument</string>
-          </property>
-         </column>
-         <item>
-          <property name="text">
-           <string>Demodulation</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>Summary</string>
+        <layout class="QGridLayout" name="gridLayout_16">
+         <item row="0" column="0">
+          <widget class="QTreeWidget" name="treeWidget">
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Raw Hex Frames</string>
+           <property name="expandsOnDoubleClick">
+            <bool>false</bool>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Parity Check</string>
-           </property>
-          </item>
-         </item>
-         <item>
-          <property name="text">
-           <string>Spacecraft</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>Spacecraft ID</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Minor Frame IDs</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Timestamps</string>
-           </property>
-          </item>
-         </item>
-         <item>
-          <property name="text">
-           <string>HIRS</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>Channels</string>
-           </property>
+           <attribute name="headerCascadingSectionResizes">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="headerShowSortIndicator" stdset="0">
+            <bool>false</bool>
+           </attribute>
+           <attribute name="headerStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>Instrument</string>
+            </property>
+           </column>
            <item>
             <property name="text">
-             <string>All</string>
+             <string>Demodulation</string>
             </property>
+            <item>
+             <property name="text">
+              <string>Summary</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Raw Hex Frames</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Parity Check</string>
+             </property>
+            </item>
            </item>
-          </item>
-          <item>
-           <property name="text">
-            <string>Telemetry</string>
-           </property>
-          </item>
+           <item>
+            <property name="text">
+             <string>Spacecraft</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Spacecraft ID</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Minor Frame IDs</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Timestamps</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>HIRS</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Channels</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>All</string>
+              </property>
+             </item>
+            </item>
+            <item>
+             <property name="text">
+              <string>Telemetry</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>DCS</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>DCS Summary</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>CPU</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>CPU A</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CPU B</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>SEM</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>MEPED</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TED</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TED2</string>
+             </property>
+            </item>
+           </item>
+          </widget>
          </item>
-         <item>
-          <property name="text">
-           <string>DCS</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>DCS Summary</string>
-           </property>
-          </item>
-         </item>
-         <item>
-          <property name="text">
-           <string>CPU</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>CPU A</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>CPU B</string>
-           </property>
-          </item>
-         </item>
-         <item>
-          <property name="text">
-           <string>SEM</string>
-          </property>
-          <item>
-           <property name="text">
-            <string>MEPED</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>TED</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>TED2</string>
-           </property>
-          </item>
-         </item>
-        </widget>
+        </layout>
        </widget>
       </item>
       <item>
@@ -201,7 +197,7 @@
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>20</number>
+            <number>18</number>
            </property>
            <widget class="QWidget" name="Demod">
             <layout class="QGridLayout" name="gridLayout_3">
@@ -518,486 +514,473 @@
               <height>588</height>
              </size>
             </property>
-            <widget class="QwtPlot" name="MEPED90EPlot">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>39</y>
-               <width>357</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="MEPED0EPlot">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>39</y>
-               <width>358</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="MEPED0PPlot">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>228</y>
-               <width>358</width>
-               <height>155</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="MEPED90PPlot">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>228</y>
-               <width>357</width>
-               <height>155</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="MEPEDOmniPPlot">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>418</y>
-               <width>722</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_6">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>390</y>
-               <width>264</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Omni-Directional Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_10">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>11</y>
-               <width>181</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Deg Electron Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_11">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>11</y>
-               <width>192</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;90 Deg Electron Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_12">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>200</y>
-               <width>169</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Deg Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_13">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>200</y>
-               <width>180</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;90 Deg Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
+            <layout class="QGridLayout" name="gridLayout_15">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Deg Electron Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;90 Deg Electron Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QwtPlot" name="MEPED0EPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QwtPlot" name="MEPED90EPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Deg Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;90 Deg Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QwtPlot" name="MEPED0PPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QwtPlot" name="MEPED90PPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Omni-Directional Proton Count&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="2">
+              <widget class="QwtPlot" name="MEPEDOmniPPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="TED">
-            <widget class="QwtPlot" name="TEDMaxDEPlot">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>228</y>
-               <width>358</width>
-               <height>155</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDLowPlot">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>39</y>
-               <width>358</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDHighPlot">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>39</y>
-               <width>357</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDEMaxDEPlot">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>228</y>
-               <width>357</width>
-               <height>155</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDBackPlot">
-             <property name="geometry">
-              <rect>
-               <x>12</x>
-               <y>418</y>
-               <width>721</width>
-               <height>154</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_14">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>11</y>
-               <width>257</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0.05-1 keV Partial Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_15">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>11</y>
-               <width>241</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;2-10 keV Partial Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_16">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>200</y>
-               <width>290</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Maximum Differential Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_17">
-             <property name="geometry">
-              <rect>
-               <x>11</x>
-               <y>390</y>
-               <width>286</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Four Point Energy/Flux Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_18">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>200</y>
-               <width>357</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Energy of Maximum Differential Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_19">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>390</y>
-               <width>103</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Background&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
+            <layout class="QGridLayout" name="gridLayout_14">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_14">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0.05-1 keV Partial Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_15">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;2-10 keV Partial Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QwtPlot" name="TEDLowPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QwtPlot" name="TEDHighPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_16">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Maximum Differential Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_18">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Energy of Maximum Differential Energy Flux&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QwtPlot" name="TEDMaxDEPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QwtPlot" name="TEDEMaxDEPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="2">
+              <widget class="QwtPlot" name="TEDBackPlot">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_19">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Background&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="TED2">
-            <widget class="QwtPlot" name="TEDFluxSpecPlotE2">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>40</y>
-               <width>341</width>
-               <height>235</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDFluxSpecPlotE1">
-             <property name="geometry">
-              <rect>
-               <x>12</x>
-               <y>40</y>
-               <width>341</width>
-               <height>235</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDFluxSpecPlotP1">
-             <property name="geometry">
-              <rect>
-               <x>12</x>
-               <y>323</y>
-               <width>341</width>
-               <height>235</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QwtPlot" name="TEDFluxSpecPlotP2">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>323</y>
-               <width>351</width>
-               <height>235</height>
-              </rect>
-             </property>
-             <property name="canvasBackground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
-               </color>
-              </brush>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_22">
-             <property name="geometry">
-              <rect>
-               <x>12</x>
-               <y>295</y>
-               <width>227</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Degree Proton Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_23">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>295</y>
-               <width>238</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;30 Degree Proton Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_20">
-             <property name="geometry">
-              <rect>
-               <x>12</x>
-               <y>12</y>
-               <width>239</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Degree Electron Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_21">
-             <property name="geometry">
-              <rect>
-               <x>376</x>
-               <y>12</y>
-               <width>250</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;30 Degree Electron Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
+            <layout class="QGridLayout" name="gridLayout_13">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Degree Electron Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_21">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;30 Degree Electron Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QwtPlot" name="TEDFluxSpecPlotE1">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QwtPlot" name="TEDFluxSpecPlotE2">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;0 Degree Proton Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_23">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;30 Degree Proton Spectrum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QwtPlot" name="TEDFluxSpecPlotP1">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QwtPlot" name="TEDFluxSpecPlotP2">
+               <property name="minimumSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>10</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="canvasBackground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>255</red>
+                  <green>255</green>
+                  <blue>255</blue>
+                 </color>
+                </brush>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
          </item>
