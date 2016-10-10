@@ -15,6 +15,7 @@
 class MainWindow;
 
 #include "sem.h"
+#include "hirs.h"
 
 namespace Ui
 {
@@ -43,11 +44,13 @@ private:
 
    QList <float> minorFrameTimes;
    QList <int> knownGoodFrameIndices;
+   QList <uchar> parityChunkList[6];
    QList <unsigned int> minorFrameIDList;
    QList <float> timeStampList;
    QList <unsigned long> timeStampTimeList;
 
-   SEM *SEMObj; //this object is going to need access to the minorframe ID list... How do we do that?
+   SEM *SEMObj;
+   HIRS *HIRSObj;
 
    unsigned int numFrames;
    unsigned int numGoodFrames;
@@ -62,6 +65,7 @@ private:
    void getTimeStamps();
 
    void decomSEM();
+   void decomHIRS();
 
    void populateSummaryTable();
    void clearAll();

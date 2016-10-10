@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
    {
    ui->setupUi(this);
    SEMObj = new SEM(this);
+   HIRSObj = new HIRS(this);
 
    QFont font("Monospace");
    font.setStyleHint(QFont::TypeWriter);
@@ -35,6 +36,30 @@ MainWindow::MainWindow(QWidget *parent) :
    connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(open()));
    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(updateViewOnTreeClick(QTreeWidgetItem*,int)));
    ui->treeWidget->expandAll(); //Show all trees expanded at the start
+
+   (void )new QwtPlotPanner( ui->SPIDPlot->canvas() );
+   QwtPlotMagnifier *zoom_x = new QwtPlotMagnifier(  ui->SPIDPlot->canvas()  );
+   QwtPlotMagnifier *zoom_y = new QwtPlotMagnifier(  ui->SPIDPlot->canvas()  );
+   zoom_x->setWheelModifiers(Qt::ControlModifier);
+   zoom_x->setAxisEnabled(Qt::XAxis, true);
+   zoom_x->setAxisEnabled(Qt::YAxis,false);
+
+   zoom_y->setAxisEnabled(Qt::XAxis,false);
+   zoom_y->setAxisEnabled(Qt::YAxis,true);
+
+
+
+   (void )new QwtPlotPanner( ui->minorFrameIDPlot->canvas() );
+   QwtPlotMagnifier *zoom_x2 = new QwtPlotMagnifier(  ui->minorFrameIDPlot->canvas()  );
+   QwtPlotMagnifier *zoom_y2 = new QwtPlotMagnifier(  ui->minorFrameIDPlot->canvas()  );
+   zoom_x2->setWheelModifiers(Qt::ControlModifier);
+   zoom_x2->setAxisEnabled(Qt::XAxis, true);
+   zoom_x2->setAxisEnabled(Qt::YAxis,false);
+
+   zoom_y2->setAxisEnabled(Qt::XAxis,false);
+   zoom_y2->setAxisEnabled(Qt::YAxis,true);
+
+
    }
 
 MainWindow::~MainWindow()
@@ -46,6 +71,10 @@ void MainWindow::clearAll()
    {
 
    knownGoodFrameIndices.clear();
+
+   for(int i=0; i < 5; i++)
+      parityChunkList[i].clear();
+
    minorFramesHex.clear();
    minorFramesDec.clear();
    minorFrameTimes.clear();
@@ -66,6 +95,7 @@ void MainWindow::clearAll()
    ui->SPIDPlot->detachItems();
 
    SEMObj->clearAll();
+   HIRSObj->clearAll();
    }
 
 void MainWindow::open()
@@ -113,10 +143,8 @@ void MainWindow::open()
       displaySpaceCraftID();
       plotMinorFrameID();
       getTimeStamps();
-
       decomSEM();
-      SEMObj->processSEM();
-
+      decomHIRS();      
       populateSummaryTable();
 
       //Ok, we're done, go to Summary now
@@ -204,9 +232,11 @@ void MainWindow::getTimeStamps()
 
 void MainWindow::checkParity()
    {
-   QList <unsigned char> pByte1,pByte2,pByte3,pByte4,pByte5;
+   //parityChunkList
+   //QList <uchar> pByte1,pByte2,pByte3,pByte4,pByte5; //<- why does this need to be a whole list?
+   uchar  pByte1,pByte2,pByte3,pByte4,pByte5,pByte6;
    QString windowContents;
-   unsigned char byte;
+   uchar byte;
    numGoodFrames = 0;
    //Word 103
    //Bit 1: CPU B data transfer incomplete bit
@@ -226,59 +256,89 @@ void MainWindow::checkParity()
    for(int frame=0; frame < numFrames; frame++)
       {
       //pByte1[frame]=0;
-      pByte1.append(0);
-      //for word=3:19
+      //pByte1.append(0);
+      pByte1=0;
+      //words 2 through 18
       for(int word=2; word < 19; word++)
          {
          byte = minorFramesDec[frame][word];
          for(char bit=0; bit<8; bit++)
             //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
-            pByte1[frame]=pByte1[frame] + ((byte>>bit) & 0x01);
+            //pByte1[frame]=pByte1[frame] + ((byte>>bit) & 0x01);
+            pByte1=pByte1 + ((byte>>bit) & 0x01);
          }
 
       //pByte2[frame]=0;
-      pByte2.append(0);
-      //for word=20:36
+      //pByte2.append(0);
+      pByte2=0;
+      //words 19 thru 35
       for(int word=19; word < 36; word++)
          {
          byte = minorFramesDec[frame][word];
          for(char bit=0; bit<8; bit++)
             //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
-            pByte2[frame]=pByte2[frame] + ((byte>>bit) & 0x01);
+            //pByte2[frame]=pByte2[frame] + ((byte>>bit) & 0x01);
+            pByte2=pByte2 + ((byte>>bit) & 0x01);
          }
 
       //pByte3[frame]=0;
-      pByte3.append(0);
-      //for(word=37:53)
+      //pByte3.append(0);
+      pByte3=0;
+      //words 36 thru 52
       for(int word=36; word < 53; word++)
          {
          byte = minorFramesDec[frame][word];
          for(char bit=0; bit<8; bit++)
             //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
-            pByte3[frame]=pByte3[frame] + ((byte>>bit) & 0x01);
+            //pByte3[frame]=pByte3[frame] + ((byte>>bit) & 0x01);
+            pByte3=pByte3 + ((byte>>bit) & 0x01);
          }
 
       //pByte4[frame]=0;
-      pByte4.append(0);
-      //for(word=54:70)
+      //pByte4.append(0);
+      pByte4=0;
+      //words 53 thru 69
       for(int word=53; word < 70; word++)
          {
          byte = minorFramesDec[frame][word];
          for(char bit=0; bit<8; bit++)
             //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
-            pByte4[frame]=pByte4[frame] + ((byte>>bit) & 0x01);
+            //pByte4[frame]=pByte4[frame] + ((byte>>bit) & 0x01);
+            pByte4=pByte4 + ((byte>>bit) & 0x01);
          }
 
       //pByte5[frame]=0;
-      pByte5.append(0);
-      //for word=71:87
+      //pByte5.append(0);
+      pByte5=0;
+      //words 70 thru 86
       for(int word=70; word < 87; word++)
          {
          byte = minorFramesDec[frame][word];
          for(char bit=0; bit<8; bit++)
             //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
-            pByte5[frame]=pByte5[frame] + ((byte>>bit) & 0x01);
+            //pByte5[frame]=pByte5[frame] + ((byte>>bit) & 0x01);
+            pByte5=pByte5 + ((byte>>bit) & 0x01);
          }
+
+      //pByte6[frame]=0;
+      //pByte6.append(0);
+      pByte6=0;
+      //words 87 thru bit 7 of word 103
+      for(int word=87; word < 103; word++)
+         {
+         byte = minorFramesDec[frame][word];
+         for(char bit=0; bit<8; bit++)
+            //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
+            //pByte5[frame]=pByte5[frame] + ((byte>>bit) & 0x01);
+            pByte6=pByte6 + ((byte>>bit) & 0x01);
+         }
+
+      //+ 103 (thru bit 7) -- bit 7 is actually the LSB, so bit0(!)
+      byte = minorFramesDec[frame][103];
+      for(char bit=1; bit<8; bit++) //we're looping LSB to MSB, so our bits are actually backwards
+         //parity(frame,1) = parity(frame,1)+bitand(bitshift(byte,-shift),1);
+         //pByte5[frame]=pByte5[frame] + ((byte>>bit) & 0x01);
+         pByte6=pByte6 + ((byte>>bit) & 0x01);
 
       //we are re-using the pBytes to store the good/bad critera since we don't need the previous values anymore
       //if(mod(parity(frame,1),2) == bitand(bitshift(minorFrames(frame,104),-5),1)) %check if divisible by 2 (even)
@@ -299,71 +359,110 @@ void MainWindow::checkParity()
       windowContents.append(QString::number(pByte5[frame]));*/
 
       windowContents.append("\tChunk 1-");
-      if( (pByte1[frame] % 2) == (minorFramesDec[frame][103] >> 5) & 0x01) //check if divisible by 2 (even)
+      //if( (pByte1[frame] % 2) == (minorFramesDec[frame][103] >> 5) & 0x01) //check if divisible by 2 (even)
+      if( (pByte1 % 2) == (minorFramesDec[frame][103] >> 5) & 0x01) //check if divisible by 2 (even)
          {
-         pByte1[frame] = 0; //%words might be good or might have an even number of bit errors
+         //pByte1[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte1 = 0; //%words might be good or might have an even number of bit errors
          windowContents.append(" OK");
          }
       else
          {
-         pByte1[frame] = 1; //%Words contain at least one error
+         //pByte1[frame] = 1; //%Words contain at least one error
+         pByte1 = 1; //%Words contain at least one error
          windowContents.append(" Bad");
          }
 
       windowContents.append("\tChunk 2-");
 
-      if( (pByte2[frame] % 2) == ((minorFramesDec[frame][103] >> 4) & 0x01)) //check if divisible by 2 (even)
+      //if( (pByte2[frame] % 2) == ((minorFramesDec[frame][103] >> 4) & 0x01)) //check if divisible by 2 (even)
+      if( (pByte2 % 2) == ((minorFramesDec[frame][103] >> 4) & 0x01)) //check if divisible by 2 (even)
          {
-         pByte2[frame] = 0; //%words might be good or might have an even number of bit errors
+         //pByte2[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte2 = 0; //%words might be good or might have an even number of bit errors
          windowContents.append(" OK");
          }
       else
          {
-         pByte2[frame] = 1; //%Words contain at least one error
+         //pByte2[frame] = 1; //%Words contain at least one error
+         pByte2 = 1; //%Words contain at least one error
          windowContents.append(" Bad");
          }
 
       windowContents.append("\tChunk 3-");
-      if( (pByte3[frame] % 2) == ((minorFramesDec[frame][103] >> 3)&0x01)) //check if divisible by 2 (even)
+      //if( (pByte3[frame] % 2) == ((minorFramesDec[frame][103] >> 3)&0x01)) //check if divisible by 2 (even)
+      if( (pByte3 % 2) == ((minorFramesDec[frame][103] >> 3)&0x01)) //check if divisible by 2 (even)
          {
-         pByte3[frame] = 0; //%words might be good or might have an even number of bit errors
+         //pByte3[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte3 = 0; //%words might be good or might have an even number of bit errors
          windowContents.append(" OK");
          }
       else
          {
-         pByte3[frame] = 1; //%Words contain at least one error
+         //pByte3[frame] = 1; //%Words contain at least one error
+         pByte3 = 1; //%Words contain at least one error
          windowContents.append(" Bad");
          }
 
       windowContents.append("\tChunk 4-");
-      if( (pByte4[frame] % 2) == ((minorFramesDec[frame][103] >> 2)&0x01)) //check if divisible by 2 (even)
+      //if( (pByte4[frame] % 2) == ((minorFramesDec[frame][103] >> 2)&0x01)) //check if divisible by 2 (even)
+      if( (pByte4 % 2) == ((minorFramesDec[frame][103] >> 2)&0x01)) //check if divisible by 2 (even)
          {
-         pByte4[frame] = 0; //%words might be good or might have an even number of bit errors
+         //pByte4[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte4 = 0; //%words might be good or might have an even number of bit errors
          windowContents.append(" OK");
          }
       else
          {
-         pByte4[frame] = 1; //%Words contain at least one error
+         //pByte4[frame] = 1; //%Words contain at least one error
+         pByte4 = 1; //%Words contain at least one error
          windowContents.append(" Bad");
          }
 
       windowContents.append("\tChunk 5-");
-      if( (pByte5[frame] % 2) == ((minorFramesDec[frame][103] >> 1)&0x01)) //check if divisible by 2 (even)
+      //if( (pByte5[frame] % 2) == ((minorFramesDec[frame][103] >> 1)&0x01)) //check if divisible by 2 (even)
+      if( (pByte5 % 2) == ((minorFramesDec[frame][103] >> 1)&0x01)) //check if divisible by 2 (even)
          {
-         pByte5[frame] = 0; //%words might be good or might have an even number of bit errors
+         //pByte5[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte5 = 0; //%words might be good or might have an even number of bit errors
          windowContents.append(" OK");
          }
       else
          {
-         pByte5[frame] = 1; //%Words contain at least one error
+         //pByte5[frame] = 1; //%Words contain at least one error
+         pByte5 = 1; //%Words contain at least one error
          windowContents.append(" Bad");
          }
 
-      if ((pByte1[frame] + pByte2[frame] + pByte3[frame] + pByte4[frame] + pByte5[frame]) == 0)
+      windowContents.append("\tChunk 6-");
+      //if( (pByte6[frame] % 2) == ((minorFramesDec[frame][103] >> 1)&0x01)) //check if divisible by 2 (even)
+      if( (pByte6 % 2) == ((minorFramesDec[frame][103] >> 0)&0x01)) //check if divisible by 2 (even)
+         {
+         //pByte6[frame] = 0; //%words might be good or might have an even number of bit errors
+         pByte6 = 0; //%words might be good or might have an even number of bit errors
+         windowContents.append(" OK");
+         }
+      else
+         {
+         //pByte6[frame] = 1; //%Words contain at least one error
+         pByte6 = 1; //%Words contain at least one error
+         windowContents.append(" Bad");
+         }
+
+      //if ((pByte1[frame] + pByte2[frame] + pByte3[frame] + pByte4[frame] + pByte5[frame]) == 0)
+      if ((pByte1 + pByte2 + pByte3 + pByte4 + pByte5 + pByte6) == 0)
          {
          numGoodFrames++;
          knownGoodFrameIndices.append(frame);
          }
+
+      parityChunkList[0].append(pByte1);
+      parityChunkList[1].append(pByte2);
+      parityChunkList[2].append(pByte3);
+      parityChunkList[3].append(pByte4);
+      parityChunkList[4].append(pByte5);
+      parityChunkList[5].append(pByte6);
+
       windowContents.append("\n");
       }
 
@@ -524,9 +623,38 @@ void MainWindow::decomSEM()
    for(uint frame=0; frame < numFrames; frame++)
       SEMObj->addSEMFrame(255-minorFramesDec[frame][20], 255-minorFramesDec[frame][21], minorFrameIDList[frame], minorFrameTimes[frame], knownGoodFrameIndices.contains(frame));
 
+   SEMObj->processSEM();
    }
 
+void MainWindow::decomHIRS()
+   {
+   uchar HIRSFrame[HIRS_BYTES_PER_FRAME];
+   uchar HIRSParity[HIRS_BYTES_PER_FRAME];
+   float HIRSFrameTime[HIRS_BYTES_PER_FRAME];
 
+   uchar HIRSSequence[] = {16,17,22,23,26,27,30,31,34,35,38,39,42,43,54,55,58,59,62,63,66,67,70,71,74,75,78,79,82,83,84,85,88,89,92,93};
+   uchar HIRSParitySequence[] = {0,0,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,5,5,5,5};
+
+   //chunk 0: Bit 3: 2-18
+   //chunk 1: Bit 4: 19-35
+   //chunk 2: Bit 5: 36-52
+   //chunk 3: Bit 6: 53-69
+   //chunk 4: Bit 7: 70-86
+   //chunk 5: Bit 8: 87-103
+
+   for(uint frame=0; frame < numFrames; frame++)
+      {
+      for(uint i=0; i < HIRS_BYTES_PER_FRAME; i++)
+         {
+         HIRSFrame[i] = minorFramesDec[frame][HIRSSequence[i]];
+         HIRSFrameTime[i] = minorFrameTimes[frame] + (1.0/8320.0)*HIRSSequence[i];
+         HIRSParity[i] = parityChunkList[HIRSParitySequence[i]][frame];
+         }
+      //HIRSObj->addHIRSFrame(255-minorFramesDec[frame][20], 255-minorFramesDec[frame][21], minorFrameIDList[frame], minorFrameTimes[frame], knownGoodFrameIndices.contains(frame));
+      HIRSObj->addHIRSFrame(HIRSFrame,HIRSFrameTime,HIRSParity);
+      }
+   HIRSObj->processHIRS();
+   }
 
 void MainWindow::displayMinorFramesHex()
    {
@@ -736,11 +864,11 @@ void MainWindow::displaySpaceCraftID()
    curveBad->attach(ui->SPIDPlot);
    curveGood->attach(ui->SPIDPlot);
 
-   (void )new QwtPlotPanner( ui->SPIDPlot->canvas() );
-   QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->SPIDPlot->canvas() );
-   magnifier->setMouseButton( Qt::NoButton );
+
    ui->SPIDPlot->autoFillBackground();
    // finally, refresh the plot
+   ui->SPIDPlot->axisScaleEngine(QwtPlot::xBottom)->setAttribute(QwtScaleEngine::Floating,true);
+   ui->SPIDPlot->axisScaleEngine(QwtPlot::yLeft)->setAttribute(QwtScaleEngine::Floating,true);
    ui->SPIDPlot->replot();
    ui->SPIDPlot->show();
    }
@@ -834,11 +962,11 @@ void MainWindow::plotMinorFrameID()
    curveBad->attach(ui->minorFrameIDPlot);
    curveGood->attach(ui->minorFrameIDPlot);
 
-   (void )new QwtPlotPanner( ui->minorFrameIDPlot->canvas() );
-   QwtPlotMagnifier *magnifier = new QwtPlotMagnifier( ui->minorFrameIDPlot->canvas() );
-   magnifier->setMouseButton( Qt::NoButton );
+
 
    // finally, refresh the plot
+   ui->minorFrameIDPlot->axisScaleEngine(QwtPlot::xBottom)->setAttribute(QwtScaleEngine::Floating,true);
+   ui->minorFrameIDPlot->axisScaleEngine(QwtPlot::yLeft)->setAttribute(QwtScaleEngine::Floating,true);
    ui->minorFrameIDPlot->replot();
    ui->minorFrameIDPlot->show();
    }

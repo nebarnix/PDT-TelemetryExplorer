@@ -28,6 +28,7 @@
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "qwt_counter.h"
 #include "qwt_plot.h"
 
 QT_BEGIN_NAMESPACE
@@ -77,7 +78,17 @@ public:
     QLabel *label_8;
     QWidget *HChans;
     QWidget *HChanAll;
+    QGridLayout *gridLayout_18;
+    QPlainTextEdit *HIRSRawHex;
     QWidget *HTlm;
+    QGridLayout *gridLayout_17;
+    QLabel *label_24;
+    QLabel *label_25;
+    QLabel *label_17;
+    QwtCounter *Counter;
+    QwtPlot *HIRSRawPlot;
+    QwtPlot *HIRSElemPlot;
+    QwtPlot *HIRSScanPosPlot;
     QWidget *DCS;
     QGridLayout *gridLayout_7;
     QLabel *label_7;
@@ -393,9 +404,65 @@ public:
         stackedWidget->addWidget(HChans);
         HChanAll = new QWidget();
         HChanAll->setObjectName(QStringLiteral("HChanAll"));
+        gridLayout_18 = new QGridLayout(HChanAll);
+        gridLayout_18->setSpacing(6);
+        gridLayout_18->setContentsMargins(11, 11, 11, 11);
+        gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
+        HIRSRawHex = new QPlainTextEdit(HChanAll);
+        HIRSRawHex->setObjectName(QStringLiteral("HIRSRawHex"));
+        HIRSRawHex->setLineWrapMode(QPlainTextEdit::NoWrap);
+
+        gridLayout_18->addWidget(HIRSRawHex, 0, 0, 1, 1);
+
         stackedWidget->addWidget(HChanAll);
         HTlm = new QWidget();
         HTlm->setObjectName(QStringLiteral("HTlm"));
+        gridLayout_17 = new QGridLayout(HTlm);
+        gridLayout_17->setSpacing(6);
+        gridLayout_17->setContentsMargins(11, 11, 11, 11);
+        gridLayout_17->setObjectName(QStringLiteral("gridLayout_17"));
+        label_24 = new QLabel(HTlm);
+        label_24->setObjectName(QStringLiteral("label_24"));
+
+        gridLayout_17->addWidget(label_24, 2, 0, 1, 1);
+
+        label_25 = new QLabel(HTlm);
+        label_25->setObjectName(QStringLiteral("label_25"));
+
+        gridLayout_17->addWidget(label_25, 0, 0, 1, 1);
+
+        label_17 = new QLabel(HTlm);
+        label_17->setObjectName(QStringLiteral("label_17"));
+
+        gridLayout_17->addWidget(label_17, 5, 0, 1, 1);
+
+        Counter = new QwtCounter(HTlm);
+        Counter->setObjectName(QStringLiteral("Counter"));
+        Counter->setMaximumSize(QSize(150, 16777215));
+        Counter->setMinimum(2);
+        Counter->setMaximum(63);
+        Counter->setSingleStep(1);
+
+        gridLayout_17->addWidget(Counter, 5, 1, 1, 1);
+
+        HIRSRawPlot = new QwtPlot(HTlm);
+        HIRSRawPlot->setObjectName(QStringLiteral("HIRSRawPlot"));
+        HIRSRawPlot->setMinimumSize(QSize(10, 10));
+
+        gridLayout_17->addWidget(HIRSRawPlot, 6, 0, 1, 2);
+
+        HIRSElemPlot = new QwtPlot(HTlm);
+        HIRSElemPlot->setObjectName(QStringLiteral("HIRSElemPlot"));
+        HIRSElemPlot->setMinimumSize(QSize(0, 10));
+
+        gridLayout_17->addWidget(HIRSElemPlot, 3, 0, 1, 2);
+
+        HIRSScanPosPlot = new QwtPlot(HTlm);
+        HIRSScanPosPlot->setObjectName(QStringLiteral("HIRSScanPosPlot"));
+        HIRSScanPosPlot->setMinimumSize(QSize(10, 10));
+
+        gridLayout_17->addWidget(HIRSScanPosPlot, 1, 0, 1, 2);
+
         stackedWidget->addWidget(HTlm);
         DCS = new QWidget();
         DCS->setObjectName(QStringLiteral("DCS"));
@@ -694,7 +761,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(18);
+        stackedWidget->setCurrentIndex(10);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -773,6 +840,9 @@ public:
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Spacecraft ID: </span><span style=\" font-size:10pt;\">Every minor frame contains a spacecraft ID, which is needed to properly decode the fr"
                         "ames as NOAA-15/18 is slightly different than NOAA-19 </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Minor Frame ID: </span><span style=\" font-size:10pt;\">Every minor frame contains an ID which counts between 0 and 319 and is required to properly decommutate the subcommutated instrument data. It is also a useful plot of data quality.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Timestamps: </span><span style=\" font-size:10pt;\">Every major frame (minor frame 0/320) contains a day number and a clock in milliseconds. The data is useful for ephemris calculations, and the T(0) time is required for initializing the DCS geolocation model.</span></p></body></html>", 0));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">HIRS</span><span style=\" font-size:10pt; font-weight:600;\"> - High Resolution Infrared Sounder</span></p><p><span style=\" font-size:10pt;\">The High Resolution Infrared Sounder subsystem scans the earth view with a constant velocity scanning mirror which directs the view orthagonal to the path of travel of the spacecraft.</span></p><p><span style=\" font-size:10pt;\">The HIRS instrument measures spectral intensity over 20 different wavelengths. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Channels: </span><span style=\" font-size:10pt;\">Displays the per-channel data.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
+        label_24->setText(QApplication::translate("MainWindow", "Element Number", 0));
+        label_25->setText(QApplication::translate("MainWindow", "Mirror Scan Position", 0));
+        label_17->setText(QApplication::translate("MainWindow", "Element X Data", 0));
         label_7->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">DCS - Data Collection System</span></p><p><span style=\" font-size:10pt;\">The DCS subsystem captures packets from ground based transmitters deployed on a variety of environmental monitoring stations.</span></p><p><span style=\" font-size:10pt;\">Such stations include earth reference stations, wildlife tracking collars, fishing vessel trreaty enforcement transmitters, among (many) others. </span></p><p><span style=\" font-size:10pt;\">NOAA-19 contains an updated subsystem referred to as ADCS (Advanced DCS) which does use a slightly different packet format.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Summary: </span><span style=\" font-size:10pt;\">Dsplays a list of all heard stations and their payloads, sorted by number of recieved packets.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
         label_9->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">CPU Telemetry</span></p><p><br/></p><p><span style=\" font-size:10pt;\">CPU Telemetry is still being reverse engineered and is probably impossible to completely understand given the amount of possible magic data</span></p></body></html>", 0));
         label_4->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">SEM - </span></p><p><span style=\" font-size:10pt;\">The SEM package contains two instruments for monitoring the space weather charged particle environemnt. The neat thing about the MEPED instrument is that one can use this data (perhaps along with epheris queries) to discover if there is an aurora borealis visible, and how intense, over one's current location. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">MEPED </span><span style=\" font-size:10pt;\">- MEPED Digital A data consists of six directional proton measurements and three directional electron measurements for each of two directions of incidence (0 and 90 degrees) and four omni-directional proton measurements. All but the two highest energy omni-directional proton measurements are read out every two seconds. The two highest energy omnidirectional proton measurements are read out every four seconds. The MEPED Digital A data and readout rates are summarized in Table"
