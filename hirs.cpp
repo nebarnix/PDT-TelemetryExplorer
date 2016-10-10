@@ -221,10 +221,15 @@ void HIRS::plotHIRSElement(int identToPlot)
 
 void HIRS::clearAll()
    {
+   Parent->ui->HIRSElemPlot->detachItems();
+   Parent->ui->HIRSScanPosPlot->detachItems();
+   Parent->ui->HIRSRawPlot->detachItems();
+   Parent->ui->HIRSRawHex->clear();
    for(int i=0; i < HIRS_WORDS_PER_FRAME; i++)
       {
       HIRSstream[i].clear();
       HIRSTime[i].clear();
+
       }
    //frameQualityList.clear; //we do need this because we need to know if we can trust the contrast/brightness calc for individual pixels
    }
@@ -275,7 +280,10 @@ void HIRS::addHIRSFrame(uchar *HIRSBytes, float *frameTime, uchar *frameChunkQua
       hexStr.sprintf("%04X:%04X\t",HIRSword,HIRSstream[i].last()&0x1FFF);
       windowContents.append(hexStr);
       }
-   Parent->ui->HIRSRawHex->appendPlainText(windowContents);
+   //Parent->ui->HIRSRawHex->appendPlainText(windowContents);
+
+   Parent->ui->HIRSRawHex->addItem(windowContents);
+
    //frameIDList.append(frameID);
    //frameQualityList.append(frameGood);
    //frameTimeList.append(frameTime);

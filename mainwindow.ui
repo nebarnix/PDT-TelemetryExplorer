@@ -430,10 +430,13 @@
            <widget class="QWidget" name="HChans"/>
            <widget class="QWidget" name="HChanAll">
             <layout class="QGridLayout" name="gridLayout_18">
+             <item row="1" column="0">
+              <widget class="QListWidget" name="HIRSRawHex"/>
+             </item>
              <item row="0" column="0">
-              <widget class="QPlainTextEdit" name="HIRSRawHex">
-               <property name="lineWrapMode">
-                <enum>QPlainTextEdit::NoWrap</enum>
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>HIRS Raw Hex Frames : sign converted data</string>
                </property>
               </widget>
              </item>

@@ -18,6 +18,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -79,7 +80,8 @@ public:
     QWidget *HChans;
     QWidget *HChanAll;
     QGridLayout *gridLayout_18;
-    QPlainTextEdit *HIRSRawHex;
+    QListWidget *HIRSRawHex;
+    QLabel *label_26;
     QWidget *HTlm;
     QGridLayout *gridLayout_17;
     QLabel *label_24;
@@ -408,11 +410,15 @@ public:
         gridLayout_18->setSpacing(6);
         gridLayout_18->setContentsMargins(11, 11, 11, 11);
         gridLayout_18->setObjectName(QStringLiteral("gridLayout_18"));
-        HIRSRawHex = new QPlainTextEdit(HChanAll);
+        HIRSRawHex = new QListWidget(HChanAll);
         HIRSRawHex->setObjectName(QStringLiteral("HIRSRawHex"));
-        HIRSRawHex->setLineWrapMode(QPlainTextEdit::NoWrap);
 
-        gridLayout_18->addWidget(HIRSRawHex, 0, 0, 1, 1);
+        gridLayout_18->addWidget(HIRSRawHex, 1, 0, 1, 1);
+
+        label_26 = new QLabel(HChanAll);
+        label_26->setObjectName(QStringLiteral("label_26"));
+
+        gridLayout_18->addWidget(label_26, 0, 0, 1, 1);
 
         stackedWidget->addWidget(HChanAll);
         HTlm = new QWidget();
@@ -840,6 +846,7 @@ public:
         label_5->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Spacecraft</span></p><p><span style=\" font-size:10pt;\">There are currently three operational (as of Sept 2016) NOAA POES satellites that transmit a direct sounder broadcast on 137.350 Mhz and 137.770 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-15</span><span style=\" font-size:10pt;\"> : 137.350 Mhz </span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-18</span><span style=\" font-size:10pt;\"> : 137.350 Mhz</span></p><p><span style=\" font-size:10pt; font-weight:600;\">NOAA-19</span><span style=\" font-size:10pt;\"> : 137.770 Mhz</span></p><p><span style=\" font-size:10pt;\">Sometimes NOAA-15 and NOAA-18 orbits overlap significantly resulting in overlapping transmissions, which is frustrating. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Spacecraft ID: </span><span style=\" font-size:10pt;\">Every minor frame contains a spacecraft ID, which is needed to properly decode the fr"
                         "ames as NOAA-15/18 is slightly different than NOAA-19 </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Minor Frame ID: </span><span style=\" font-size:10pt;\">Every minor frame contains an ID which counts between 0 and 319 and is required to properly decommutate the subcommutated instrument data. It is also a useful plot of data quality.</span></p><p><span style=\" font-size:10pt; font-weight:600;\">Timestamps: </span><span style=\" font-size:10pt;\">Every major frame (minor frame 0/320) contains a day number and a clock in milliseconds. The data is useful for ephemris calculations, and the T(0) time is required for initializing the DCS geolocation model.</span></p></body></html>", 0));
         label_8->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">HIRS</span><span style=\" font-size:10pt; font-weight:600;\"> - High Resolution Infrared Sounder</span></p><p><span style=\" font-size:10pt;\">The High Resolution Infrared Sounder subsystem scans the earth view with a constant velocity scanning mirror which directs the view orthagonal to the path of travel of the spacecraft.</span></p><p><span style=\" font-size:10pt;\">The HIRS instrument measures spectral intensity over 20 different wavelengths. </span></p><p><span style=\" font-size:10pt; font-weight:600;\">Channels: </span><span style=\" font-size:10pt;\">Displays the per-channel data.</span></p><p><span style=\" font-size:10pt;\"><br/></span></p></body></html>", 0));
+        label_26->setText(QApplication::translate("MainWindow", "HIRS Raw Hex Frames : sign converted data", 0));
         label_24->setText(QApplication::translate("MainWindow", "Element Number", 0));
         label_25->setText(QApplication::translate("MainWindow", "Mirror Scan Position", 0));
         label_17->setText(QApplication::translate("MainWindow", "Element X Data", 0));
