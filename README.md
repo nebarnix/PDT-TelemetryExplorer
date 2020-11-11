@@ -1,5 +1,11 @@
 # Project Desert Tortoise - TelemetryExplorer
 Explore the telemetry gathered from the NOAA spacecraft! 
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot1.png)
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot2.png)
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot3.png)
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot4.png)
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot5.png)
+![Screenshot of program](https://github.com/nebarnix/PDT-TelemetryExplorer/blob/master/Screenshot6.png)
 
 TODO:
 
